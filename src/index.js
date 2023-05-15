@@ -4,14 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from './pages/landingPage/LandingPage';
 import Login from './pages/login/Login';
 import { Provider } from "react-redux";
 import {store} from './store'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage/>,
+    element: <App/>,
   },
   {
     path: "/login",
@@ -23,7 +22,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );
