@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './login.module.css'
 
-const LoginPage = () => {
+const Login = () => {
   return (
     <div className={styles.container}>
       A login page
@@ -10,4 +10,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default Login

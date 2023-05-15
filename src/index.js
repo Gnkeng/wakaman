@@ -3,11 +3,28 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from './pages/landingPage/LandingPage';
+import Login from './pages/login/Login';
+import { Provider } from "react-redux";
+import {store} from './store'
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage/>,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
