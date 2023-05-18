@@ -1,10 +1,10 @@
-import LoginPage from './pages/login/Login.page';
+import LoginPage from './pages/login/Login';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-     <LoginPage/>
+     {/* <LoginPage/> */}
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
     </div>
   );
