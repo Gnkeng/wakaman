@@ -22,13 +22,19 @@ function App() {
             </button>
           </div>
           <div>
-            <button className="agn">Bus Agency</button>
+            <button className="agn">
+              <Link to={`agency-signup`}> Agency </Link>
+            </button>
           </div>
         </div>
 
         <div className="aa">
-          <p >
-            Already have account? <span className="login">login</span>
+          <p>
+            Already have account?{" "}
+            <span className="login">
+              {" "}
+              <Link to={`login`}> Login </Link>
+            </span>
           </p>
         </div>
       </div>

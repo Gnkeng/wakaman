@@ -2,9 +2,11 @@ import React ,{useState} from 'react'
 import TextInput from '../../components/common/input/TextInput';
 import PasswordInput from '../../components/common/input/PasswordInput';
 import Button from '../../components/common/button/Button';
+import { useNavigate } from "react-router-dom";
 // import styles from './signup.module.css'
 
 const Signup = () => {
+  const navigate = useNavigate();
     const [form, setForm] = useState({
        firstname: "",
       lastname: "",
@@ -16,6 +18,7 @@ const Signup = () => {
       const handleSubmit = (event) => {
         event.preventDefault();
         console.log(form)
+        navigate("/customer-home");
       };
 
 
