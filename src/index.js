@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from './pages/login/Login';
+import Signup from './pages/signup/Signup';
 import { Provider } from "react-redux";
 import {store} from './store'
 const router = createBrowserRouter([
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
+  },
+  {
+    path: "/signup",
+    element: <Signup/>,
   },
 ]);
 
