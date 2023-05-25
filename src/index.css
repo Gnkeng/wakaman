@@ -13,3 +13,11 @@ body {
 font-family: 'Ubuntu', sans-serif;
 }
 
+:root{
+  --brand_color:#6EE7B7;
+  --gray_color:#334155;
+  --background_color:#E2E8F0;
+
+
+}
+
