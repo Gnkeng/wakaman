@@ -64,7 +64,10 @@ const CustomerHome = () => {
       </div>
       <ModalContainer onClose={()=>{setShow(false)}} width={'700px'} show={show}>
         {/* <OneWayModal/> */}
-      <GoCameModal/>
+        {
+          active ===1 ?<OneWayModal/>:active === 2?   <GoCameModal/>:<p>hi</p>
+        }
+   
       </ModalContainer>
     </div>
   );
