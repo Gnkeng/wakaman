@@ -17,12 +17,12 @@ const Button = ({
         buttonType === "PRIMARY"
           ? "bg-brand text-white"
           : buttonType === "SECONDARY"
-          ? "bg-transparent border border-primary text-primary"
+          ? "bg-transparent border border-dark text-dark"
           : buttonType === "TERTIARY"
           ? "bg-transparent border text-secondary border-slate-300"
           : buttonType === "ERROR"
           ? "bg-errorColor text-white"
-          : "text-primary"
+          : "text-brand"
       }
      py-[10px] px-5 border rounded-lg outline-none text-[16px] flex justify-center items-center `}
       onClick={onClick}
