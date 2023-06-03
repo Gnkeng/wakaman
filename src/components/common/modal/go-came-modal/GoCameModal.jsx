@@ -3,8 +3,17 @@ import SelectInput from "../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../constants/constant";
 import Dateinput from "../../input/Dateinput";
 import Button from "../../button/Button";
+import { useNavigate } from 'react-router-dom';
 
 const GoCameModal = () => {
+  const navigate = useNavigate();
+
+   const handleSubmit = () => {
+   
+     navigate("/go-came");
+   };
+
+
   return (
     <div>
       <h1 className="text-2xl font-bold">Go and Come</h1>
@@ -34,7 +43,7 @@ const GoCameModal = () => {
           </div>
         </div>
         <div className="mt-5">
-          <Button text="Search" buttonType={"PRIMARY"} fullWidth={true} />
+          <Button text="Search" buttonType={"PRIMARY"} fullWidth={true} onClick={handleSubmit} />
         </div>
       </form>
     </div>
