@@ -4,10 +4,19 @@ import Button from '../../components/common/button/Button'
 import ModalContainer from '../../components/common/modal/modal-container/ModalContainer'
 import OneWayModal from '../../components/common/modal/one-way-modal/OneWayModal'
 import GoCameModal from '../../components/common/modal/go-came-modal/GoCameModal'
+import { useNavigate } from "react-router-dom";
+
 
 const CustomerHome = () => {
   const [active, setActive] = useState(0)
   const [show, setShow] = useState(false)
+
+  const navigate = useNavigate();
+
+    const handleSubmit = () => {
+     
+      navigate("/for-today");
+    };
 
   const handleWayClick = () => {
 
@@ -59,6 +68,7 @@ const CustomerHome = () => {
           buttonType="PRIMARY"
           text={"FAST BOOKING FOR THE  DAY"}
           fullWidth={true}
+          onClick={handleSubmit}
         />
         
       </div>

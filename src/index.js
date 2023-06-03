@@ -11,6 +11,10 @@ import {store} from './store'
 import CustomerHome from './pages/home/CustomerHome';
 import AgencyHome from './pages/home/AgencyHome';
 import AgencySignup from './pages/agency-signup/AgencySignup';
+import OneWay from './pages/one-way/OneWay';
+import GoCame from './pages/go-came/GoCame';
+import ForToday from './pages/for-the-day/ForToday'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +39,18 @@ const router = createBrowserRouter([
   {
     path: "/agency-home",
     element: <AgencyHome/>,
+  },
+  {
+    path: "/one-way",
+    element: <OneWay/>,
+  },
+  {
+    path: "/go-came",
+    element: <GoCame/>,
+  },
+  {
+    path: "/for-today",
+    element: <ForToday/>,
   },
 ]);
 
