@@ -15,6 +15,7 @@ import OneWay from './pages/one-way/OneWay';
 import GoCame from './pages/go-came/GoCame';
 import ForToday from './pages/for-the-day/ForToday'
 import TicketPage from './pages/ticket/TicketPage';
+import AgencyFastPage from './pages/agency-pages/AgencyFastPage';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: "/customer-ticket",
     element: <TicketPage/>,
+  },
+  {
+    path: "/add-fast",
+    element: <AgencyFastPage/>,
   },
 ]);
 
