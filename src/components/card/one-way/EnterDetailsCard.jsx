@@ -1,9 +1,11 @@
 import React ,{useState}from 'react';
 import TextInput from '../../common/input/TextInput';
+import { useNavigate } from "react-router-dom";
 import Button from '../../common/button/Button';
 
 
 const EnterDetailsCard = ({ selectedOperator, setCurrentStep }) => {
+    const navigate = useNavigate();
   const [form, setForm] = useState({
     number: '',
   });
@@ -38,7 +40,7 @@ const EnterDetailsCard = ({ selectedOperator, setCurrentStep }) => {
           fullWidth={true}
         />
         <Button
-        //   onClick={() => setShow(true)}
+          onClick={() =>  navigate("/customer-ticket")}
           text={'PAY'}
           buttonType={'PRIMARY'}
           fullWidth={true}
