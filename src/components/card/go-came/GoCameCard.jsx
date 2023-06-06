@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../common/button/Button';
 
-const GoCameCard = () => {
+const GoCameCard = ({setShow}) => {
   return (
     <div
       className="px-10 w-[620px] bg-white py-4 mb-6 border rounded-lg" 
@@ -65,6 +65,7 @@ const GoCameCard = () => {
 
         <div className="mt-5">
           <Button
+            onClick={() => setShow(true)}
             text={"Book Go and Come Ticket"}
             buttonType={"PRIMARY"}
             fullWidth={true}
