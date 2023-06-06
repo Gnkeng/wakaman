@@ -39,12 +39,7 @@ const GoCame = () => {
         ) : (
           ''
         )}
-        {/* {currentStep === 2 ? (
-          <OtpVerificationStep setCurrentStep={setCurrentStep} />
-        ) : (
-          ''
-        )}
-        {currentStep === 3 ? <SuccessfulStep /> : ''} */}
+
       </ModalContainer>
     </div>
   );
