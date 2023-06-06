@@ -1,5 +1,7 @@
 import React from 'react'
 import OneWayCard from '../../components/card/one-way/OneWayCard'
+// import OneWayTicket from '../../components/common/tickets/OneWayTicket';
+// import GoCameTicket from '../../components/common/tickets/GoCameTicket';
 
 const OneWay = () => {
   return (
@@ -9,8 +11,10 @@ const OneWay = () => {
       </div>
 
       <div className='flex flex-wrap justify-center gap-10 mt-6'>
-        <OneWayCard />
-        <OneWayCard />
+        {/* <OneWayTicket/> */}
+      {/* <GoCameTicket/> */}
+        {/* {/* <OneWayCard /> */}
+        <OneWayCard /> 
         {/* <GoCameCard /> */}
       </div>
     </div>

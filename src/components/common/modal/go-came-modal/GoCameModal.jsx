@@ -24,26 +24,24 @@ const GoCameModal = () => {
           <SelectInput selectOptions={LOCATIONS} label="TO" />
         </div>
 
-        <div className="flex items-center gap-10 mt-3 mb-6">
-          <div>
-            <Dateinput label={"Depature Date"} width={"300px"} type={"date"} />
-          </div>
-          <div>
-            <Dateinput label={"Arrival Date"} width={"300px"} type={"date"} />
-          </div>
+        <div className="w-full flex justify-between gap-10 mt-3 mb-6">
+          <Dateinput type={"date"} label={"Departure Date"} width={"100%"} />
+
+          <Dateinput type={"date"} label={"Arrival Date"} width={"100%"}  />
         </div>
 
+        <div className="flex gap-10 mt-10 mb-9">
+          <SelectInput selectOptions={TRAVEL_TIME} label={"Departure Time"} />
 
-        <div className="flex items-center gap-10 mt-10 mb-9">
-          <div>
-            <Dateinput label={"Depature Time"} width={"300px"} type={"time"} />
-          </div>
-          <div>
-            <Dateinput label={"Arrival Time"} width={"300px"} type={"time"} />
-          </div>
+          <SelectInput selectOptions={TRAVEL_TIME} label={"Arrival Time"} />
         </div>
         <div className="mt-5">
-          <Button text="Search" buttonType={"PRIMARY"} fullWidth={true} onClick={handleSubmit} />
+          <Button
+            text="Search"
+            buttonType={"PRIMARY"}
+            fullWidth={true}
+            onClick={handleSubmit}
+          />
         </div>
       </form>
     </div>
