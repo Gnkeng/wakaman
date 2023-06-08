@@ -1,0 +1,11 @@
+.star_container span {
+    margin: 0px 2px;
+    font-size: 4rem;
+    color: grey;
+
+  }
+  .star_container .hovered {
+    margin: 0px 2px;
+    font-size: 4rem;
+    color: #6ee7b7;
+  }
