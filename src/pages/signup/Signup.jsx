@@ -17,7 +17,7 @@ const Signup = () => {
 
       const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(form)
+        // console.log(form)
         navigate("/customer-home");
       };
 

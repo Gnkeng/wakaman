@@ -7,14 +7,18 @@ const AgencyHome = () => {
     const navigate = useNavigate();
 
     const goToFastPage=()=>{
-      navigate("/customer-home");
+      navigate("/add-fast");
 
       
     }
     const gotoOneWayPage=()=>{
+      navigate("/add-one-way");
+
 
     }
     const goToGoCamePage=()=>{
+      navigate("/add-go-came");
+
 
     }
 
@@ -26,9 +30,21 @@ const AgencyHome = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center h-full gap-[100px] ">
-          <Button text={"Fast Book Trips"} buttonType={"PRIMARY"} />
-          <Button text={"One Way Trips"} buttonType={"OUTLINE"} />
-          <Button text={"Go and Come Trips"} buttonType={"SECONDARY"} />
+          {/* <Button
+            text={"Fast Book Trips"}
+            buttonType={"PRIMARY"}
+            onClick={goToFastPage}
+          /> */}
+          <Button
+            text={"One Way Trips"}
+            buttonType={"PRIMARY"}
+            onClick={gotoOneWayPage}
+          />
+          <Button
+            text={"Go and Come Trips"}
+            buttonType={"SECONDARY"}
+            onClick={goToGoCamePage}
+          />
 
           {/* <GoCameCard /> */}
         </div>

@@ -2,11 +2,11 @@ import React from 'react';
 
 import Button from '../../common/button/Button';
 
-const OneWayCard = ({ setShow }) => {
+const OneWayCard = ({ setShow ,forAgency}) => {
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
-      style={{ boxShadow: '0px 20px 25px rgba(76, 103, 100, 0.1)' }}
+      style={{ boxShadow: "0px 20px 25px rgba(76, 103, 100, 0.1)" }}
     >
       {/* header */}
       <div className="flex justify-between items-center border-b border-slate-300 pb-7">
@@ -54,14 +54,32 @@ const OneWayCard = ({ setShow }) => {
           <h3> Musango Bus Service</h3>
         </div>
 
-        <div className="mt-5">
-          <Button
-            onClick={() => setShow(true)}
-            text={'Book One Way Ticket'}
-            buttonType={'PRIMARY'}
-            fullWidth={true}
-          />
-        </div>
+        {forAgency ? (
+          <div className='w-full mt-5 flex gap-5 '>
+            <Button
+              // onClick={() => setShow(true)}
+              text={"Edit"}
+              buttonType={"PRIMARY"}
+              fullWidth={true}
+            />
+
+            <Button
+              // onClick={() => setShow(true)}
+              text={"Delete"}
+              buttonType={"OUTLINE"}
+              fullWidth={true}
+            />
+          </div>
+        ) : (
+          <div className="mt-5">
+            <Button
+              onClick={() => setShow(true)}
+              text={"Book One Way Ticket"}
+              buttonType={"PRIMARY"}
+              fullWidth={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
