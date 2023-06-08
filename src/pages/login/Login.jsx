@@ -13,7 +13,7 @@ const Login = () => {
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      console.log(form)
+      // console.log(form)
       navigate("/agency-home");
     };
   return (
