@@ -15,47 +15,62 @@ import OneWay from './pages/one-way/OneWay';
 import GoCame from './pages/go-came/GoCame';
 import ForToday from './pages/for-the-day/ForToday'
 import TicketPage from './pages/ticket/TicketPage';
+import AgencyFastPage from './pages/agency-pages/AgencyFastPage';
+import AgencyGoCamePage from './pages/agency-pages/AgencyGoCamePage';
+import AgencyOneWayPage from './pages/agency-pages/AgencyOneWayPage';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/signup",
-    element: <Signup/>,
+    element: <Signup />,
   },
   {
     path: "/agency-signup",
-    element: <AgencySignup/>,
+    element: <AgencySignup />,
   },
   {
     path: "/customer-home",
-    element: <CustomerHome/>,
+    element: <CustomerHome />,
   },
   {
     path: "/agency-home",
-    element: <AgencyHome/>,
+    element: <AgencyHome />,
   },
   {
     path: "/one-way",
-    element: <OneWay/>,
+    element: <OneWay />,
   },
   {
     path: "/go-came",
-    element: <GoCame/>,
+    element: <GoCame />,
   },
   {
     path: "/for-today",
-    element: <ForToday/>,
+    element: <ForToday />,
   },
   {
     path: "/customer-ticket",
-    element: <TicketPage/>,
+    element: <TicketPage />,
+  },
+  {
+    path: "/add-fast",
+    element: <AgencyFastPage />,
+  },
+  {
+    path: "/add-go-came",
+    element: <AgencyGoCamePage />,
+  },
+  {
+    path: "/add-one-way",
+    element: <AgencyOneWayPage />,
   },
 ]);
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from '../../common/button/Button';
 
-const GoCameCard = ({setShow}) => {
+const GoCameCard = ({setShow,forAgency}) => {
   return (
     <div
-      className="px-10 w-[620px] bg-white py-4 mb-6 border rounded-lg" 
+      className="px-10 w-[620px] bg-white py-4 mb-6 border rounded-lg"
       style={{ boxShadow: "0px 20px 25px rgba(76, 103, 100, 0.1)" }}
     >
       {/* header */}
@@ -63,14 +63,32 @@ const GoCameCard = ({setShow}) => {
           <h3> Musango Bus Service</h3>
         </div>
 
-        <div className="mt-5">
-          <Button
-            onClick={() => setShow(true)}
-            text={"Book Go and Come Ticket"}
-            buttonType={"PRIMARY"}
-            fullWidth={true}
-          />
-        </div>
+        {forAgency ? (
+          <div className="w-full mt-5 flex gap-5 ">
+            <Button
+              // onClick={() => setShow(true)}
+              text={"Edit"}
+              buttonType={"PRIMARY"}
+              fullWidth={true}
+            />
+
+            <Button
+              // onClick={() => setShow(true)}
+              text={"Delete"}
+              buttonType={"OUTLINE"}
+              fullWidth={true}
+            />
+          </div>
+        ) : (
+          <div className="mt-5">
+            <Button
+              onClick={() => setShow(true)}
+              text={"Book One Way Ticket"}
+              buttonType={"PRIMARY"}
+              fullWidth={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
