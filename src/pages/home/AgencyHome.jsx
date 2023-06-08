@@ -1,3 +1,4 @@
+
 import React from "react";
 import Button from "../../components/common/button/Button";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +52,7 @@ const AgencyHome = () => {
       </div>
     </div>
   );
+
 };
 
 export default AgencyHome;
