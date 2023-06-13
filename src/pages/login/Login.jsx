@@ -3,19 +3,32 @@ import TextInput from '../../components/common/input/TextInput';
 import PasswordInput from '../../components/common/input/PasswordInput';
 import Button from '../../components/common/button/Button';
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+
 
 const Login = () => {
+
+
+const {
+  register,
+  handleSubmit,
+  watch,
+  formState: { errors },
+} = useForm();
+
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email:'',
     password:'',
   });
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      // console.log(form)
-      navigate("/agency-home");
-    };
+    // const onSubmit = (event) => {
+    //   event.preventDefault();
+    //   // console.log(form)
+    //   navigate("/agency-home");
+    // };
   return (
     <div className="bg-mid h-screen  flex flex-row justify-center items-center  ">
     <div className="w-[500px] h-[640px] py-5 px-10 bg-white rounded-lg ">
