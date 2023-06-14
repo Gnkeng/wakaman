@@ -5,15 +5,19 @@ import { LOCATIONS,TRAVEL_TIME } from '../../../../../constants/constant';
 import TextInput from '../../../input/TextInput'
 import Button from '../../../button/Button';
 import DateInput from '../../../input/Dateinput'
+import { getDoc, collection, addDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth,db } from '../../../../../firebase-config';
 
 
 const AddOneWayModal = ({setShow}) => {
+const [currentAgency,setCurrentAgency]=useState('')
 
     
-
-    const handleSubmit = () => {
-    setShow(false)
-    };
+ onAuthStateChanged(auth, (currentUser) => {
+   setCurrentAgency(currentUser);
+ });
+  
 
      const [form, setForm] = useState({
        to: "",
@@ -21,11 +25,33 @@ const AddOneWayModal = ({setShow}) => {
        busType: "",
        availableSeats: "",
        departureDate:'',
-       departureTime: "",
+       arrivalTime: "",
      });
+       const handleSubmit = async (event) => {
+         event.preventDefault();
+         try{
+          const ticketCollectionRef = collection(db, "oneWayTicket");
+          await addDoc(ticketCollectionRef, {
+            to:form.to,
+            from:form.from,
+            busType: form.busType,
+            availableSeats: form.availableSeats,
+            departureDate: form.departureDate,
+            // user: { email: currentAgency?.email },
+          });
+          console.log(ticketCollectionRef);
+         }catch(error){
+          console.log(error.message);
+         }
+         console.log(form);
+         setShow(false);
+       };
+
+
+      //  console.log(currentAgency);
   return (
     <div>
-      <h1 className="text-2xl  text-center font-bold">Go and Come</h1>
+      <h1 className="text-2xl  text-center font-bold">One Way</h1>
 
       <form className="mt-4" onSubmit={handleSubmit}>
         <div className="flex ">
@@ -60,6 +86,7 @@ const AddOneWayModal = ({setShow}) => {
             name={"busType"}
             id={"busType"}
             value={form.busType}
+            required={true}
           />
         </div>
 
@@ -71,27 +98,28 @@ const AddOneWayModal = ({setShow}) => {
               setForm({ ...form, availableSeats: e.target.value });
             }}
             value={form.availableSeats}
+            required={true}
           />
         </div>
 
         <div className="w-full flex items-center gap-12 ">
           <SelectInput
             selectOptions={TRAVEL_TIME}
-            label={"Departure Time"}
+            label={"Arrival Time"}
             onChange={(e) => {
-              setForm({ ...form, departureTime: e.target.value });
+              setForm({ ...form, arrivalTime: e.target.value });
             }}
-            value={form.departureTime}
+            value={form.arrivalTime}
           />
           <div className="w-full">
             <DateInput
               // selectOptions={TRAVEL_TIME}
               label={"Departure Date"}
               type={'date'}
-              // onChange={(e) => {
-              //   setForm({ ...form, departureTime: e.target.value });
-              // }}
-              //  value={form.departureTime}
+              onChange={(e) => {
+                setForm({ ...form, departureDate: e.target.value });
+              }}
+               value={form.departureDate}
             />
           </div>
         </div>

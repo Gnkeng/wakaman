@@ -19,18 +19,17 @@ export const LOCATIONS=[
         value:'Douala'
     },
 ]
-export const TRAVEL_TIME=[
-    {
-        label:'Morning 8:00am',
-        value:'8:00am'
-    },
-    {
-        label:'Afternoon 2pm',
-        value:'2:00pm'
-    },
-    {
-        label:'Evening 8pm',
-        value:'*:00pm'
-    },
-   
-]
+export const TRAVEL_TIME = [
+  {
+    label: "Morning 8:00am",
+    value: "8:00:00",
+  },
+  {
+    label: "Afternoon 2pm",
+    value: "14:00:00",
+  },
+  {
+    label: "Evening 8pm",
+    value: "20:00:00 ",
+  },
+];

@@ -1,11 +1,11 @@
 import React,{useState} from 'react'
 
-const Dateinput = ({label,width,type}) => {
+const Dateinput = ({label,width,type,onChange}) => {
      const [date, setDate] = useState(new Date());
   return (
     <div className='flex flex-col'style={{width:width}}>
       <label>{label}</label>
-      <input type={type}  />
+      <input type={type} onChange={onChange}  />
     </div>
   );
 }

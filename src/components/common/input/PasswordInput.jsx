@@ -9,6 +9,7 @@ const PasswordInput = ({
   placeholder,
   onChange,
   type,
+  required
 }) => {
   const [hidden, setHidden] = useState(false);
 
@@ -33,6 +34,7 @@ const PasswordInput = ({
                ? ""
                : "focus:ring-1 focus:ring-errorColor"
            }`}
+           required={required}
         />
         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 right-0 pr-3 py-3">
           {hidden ? (

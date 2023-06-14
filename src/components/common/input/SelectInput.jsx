@@ -12,6 +12,7 @@ const SelectInput = ({selectOptions, onChange, value, label}) => {
         className={styles.select__container}
         onChange={onChange}
       >
+        <option>{label}</option>
         {
           selectOptions !== undefined ? selectOptions?.map((selectOption, index) => {
           return (
