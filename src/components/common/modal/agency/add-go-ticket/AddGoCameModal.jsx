@@ -5,9 +5,7 @@ import TextInput from "../../../input/TextInput";
 import Button from "../../../button/Button";
 
 const AddGoCameModal = ({ setShow }) => {
-     const handleSubmit = () => {
-       setShow(false);
-     };
+     
 
      const [form, setForm] = useState({
        to: "",
@@ -16,6 +14,12 @@ const AddGoCameModal = ({ setShow }) => {
        availableSeats: "",
        departureTime: "",
      });
+
+     const handleSubmit = (event) => {
+       event.preventDefault();
+       console.log(form);
+       setShow(false);
+     };
   return (
     <div>
       <h1 className="text-2xl  text-center font-bold">Go and Come</h1>
@@ -53,6 +57,7 @@ const AddGoCameModal = ({ setShow }) => {
             name={"busType"}
             id={"busType"}
             value={form.busType}
+            required={true}
           />
         </div>
 
@@ -64,6 +69,7 @@ const AddGoCameModal = ({ setShow }) => {
               setForm({ ...form, availableSeats: e.target.value });
             }}
             value={form.availableSeats}
+            required={true}
           />
         </div>
 

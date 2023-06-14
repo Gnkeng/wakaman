@@ -3,6 +3,11 @@ import TextInput from '../../components/common/input/TextInput';
 import PasswordInput from '../../components/common/input/PasswordInput';
 import Button from '../../components/common/button/Button';
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth ,db} from "../../firebase-config";
+import { getDoc, collection, addDoc } from "firebase/firestore";
+
+
 // import styles from './signup.module.css'
 
 const Signup = () => {
@@ -15,24 +20,85 @@ const Signup = () => {
       confirmpassword: '',
     });
 
-      const handleSubmit = (event) => {
+      const [firebaseErr, setFirebaseErr] = useState("");
+    const [error, setError] = useState({
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+    });
+
+      const handleSubmit = async (event) => {
         event.preventDefault();
-        // console.log(form)
-        navigate("/customer-home");
+        if (form.password.length < 6) {
+          return setError({
+            ...error,
+            password: "Password must be at least 6 characters",
+          });
+        }  if (form.confirmpassword.length < 6) {
+          return setError({
+            ...error,
+            confirmpassword: "Password must be at least 6 characters",
+          });
+        }
+
+         if (form.password.length < 6 && form.confirmpassword.length < 6){
+          return setError({
+            ...error,
+            password: "Password must be at least 6 characters",
+            confirmpassword: "Password must be at least 6 characters",
+          });
+        }
+
+        if(form.password !== form.confirmpassword) {
+          return setError({
+            ...error,
+            password: "Passwords do not match",
+          });
+        }
+
+        try{
+          const customer = await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+
+
+ const customerCollectionRef = collection(db, "customer");
+ await addDoc(customerCollectionRef, {
+  firstname:form.firstname,
+  lastname:form.lastname,
+   user: { email: form.email  },
+ });
+
+
+
+      console.log("user is", customer);
+      console.log(customerCollectionRef);
+       console.log(form);
+       navigate("/customer-home");
+        }catch(error){
+      console.log(error.message);
+      setFirebaseErr(error.message)
+        }
+          
+       
       };
 
 
     
   return (
     <div className="bg-mid h-screen  flex flex-row justify-center items-center  ">
-      <div className="w-[500px] h-[640px] py-5 px-10 bg-white rounded-lg ">
+      <div className="w-[500px] h-[680px] py-5 px-10 bg-white rounded-lg ">
         <div className="text-center">
           <h1 className="font-bold text-[2p4x] text-dark">
             SIGNUP TO <span className="text-brand">WAKAMAN</span>
           </h1>
         </div>
 
-        <form className="mt-4"  onSubmit={handleSubmit}>
+        <form className="mt-4" onSubmit={handleSubmit}>
           <div>
             <TextInput
               label="First Name"
@@ -43,6 +109,7 @@ const Signup = () => {
               onChange={(e) => {
                 setForm({ ...form, firstname: e.target.value });
               }}
+              required={true}
             />
           </div>
           <div>
@@ -55,19 +122,23 @@ const Signup = () => {
               onChange={(e) => {
                 setForm({ ...form, lastname: e.target.value });
               }}
+              required={true}
             />
           </div>
           <div>
             <TextInput
               label="Email"
               placeholder="example@email.com"
-              type="text"
-              id="firstname"
+              type="email"
+              id="email"
               value={form.email}
               onChange={(e) => {
                 setForm({ ...form, email: e.target.value });
               }}
+              required={true}
             />
+
+            {firebaseErr &&(<p>{firebaseErr}</p> )}
           </div>
           <div>
             <PasswordInput
@@ -79,19 +150,31 @@ const Signup = () => {
               onChange={(e) => {
                 setForm({ ...form, password: e.target.value });
               }}
+              required={true}
             />
+            {error.password ? (
+              <p className="text-red-400 ">{error.password}</p>
+            ) : (
+              ""
+            )}
           </div>
           <div>
             <PasswordInput
               label="Confirm Password"
               placeholder="******"
               type="password"
-              id="password"
+              id="confirmpassword"
               value={form.confirmpassword}
               onChange={(e) => {
                 setForm({ ...form, confirmpassword: e.target.value });
               }}
+              required={true}
             />
+            {error.confirmpasswordpassword ? (
+              <p className="text-red-400">{error.password}</p>
+            ) : (
+              ""
+            )}
           </div>
           <div>
             <Button
