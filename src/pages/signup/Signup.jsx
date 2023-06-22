@@ -66,11 +66,11 @@ const Signup = () => {
       );
 
 
- const customerCollectionRef = collection(db, "customer");
+ const customerCollectionRef = collection(db, "customers");
  await addDoc(customerCollectionRef, {
   firstname:form.firstname,
   lastname:form.lastname,
-   user: { email: form.email  },
+   email:form.email,
  });
 
 

@@ -67,7 +67,10 @@ const AgencySignup = () => {
           await addDoc(agencyCollectionRef, {
             agencyname: form.agencyname,
             mainoffice: form.mainoffice,
-            user: { email: form.email },
+            email:form.email,
+            rating:0,
+            peopleReviewed:0,
+            totalStars:0,
           });
 
           console.log("user is", agency);

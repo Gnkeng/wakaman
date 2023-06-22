@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import SelectInput from "../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../constants/constant";
-import Dateinput from "../../input/Dateinput";
+import DateInput from "../../input/DateInput";
 import Button from "../../button/Button";
 import { useNavigate } from 'react-router-dom';
 
@@ -51,7 +51,7 @@ const GoCameModal = () => {
         </div>
 
         <div className="w-full flex justify-between gap-10 mt-3 mb-6">
-          <Dateinput
+          <DateInput
             type={"date"}
             label={"Departure Date"}
             width={"100%"}
@@ -61,7 +61,7 @@ const GoCameModal = () => {
             value={form.departureDate}
           />
 
-          <Dateinput
+          <DateInput
             type={"date"}
             label={"Arrival Date"}
             width={"100%"}

@@ -3,8 +3,16 @@ import SelectInput from "../../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../../constants/constant";
 import TextInput from "../../../input/TextInput";
 import Button from "../../../button/Button";
+import DateInput from "../../../input/DateInput";
+import { getDoc, collection, addDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../../../../../firebase-config";
+import { useDispatch, useSelector } from "react-redux";
+
+
 
 const AddGoCameModal = ({ setShow }) => {
+  const agencySlice = useSelector((state) => state.agency);
      
 
      const [form, setForm] = useState({
@@ -13,18 +21,41 @@ const AddGoCameModal = ({ setShow }) => {
        busType: "",
        availableSeats: "",
        departureTime: "",
+       arrivalTime:'',
+       departureDate: "",
+       arrivalDate:'',
      });
 
-     const handleSubmit = (event) => {
+     const handleSubmit = async (event) => {
        event.preventDefault();
-       console.log(form);
-       setShow(false);
+        try {
+      const ticketCollectionRef = collection(db, "goCameTickets");
+      await addDoc(ticketCollectionRef, {
+        to: form.to,
+        from: form.from,
+        busType: form.busType,
+        availableSeats: form.availableSeats,
+        occupiedSeats: 0,
+        departureDate: form.departureDate,
+        arrivalDate: form.arrivalDate,
+        departureTime: form.departureTime,
+        arrivalTime: form.arrivalTime,
+        agencyEmail: agencySlice?.agency?.email,
+        // user: { email: currentAgency?.email },
+      });
+      setShow(false);
+      // console.log(ticketCollectionRef);
+    } catch (error) {
+      console.log(error.message);
+    }
+      //  console.log(form);
+       
      };
   return (
     <div>
       <h1 className="text-2xl  text-center font-bold">Go and Come</h1>
 
-      <form className="mt-4" onSubmit={handleSubmit}>
+      <form className="mt-2" onSubmit={handleSubmit}>
         <div className="flex ">
           <SelectInput
             selectOptions={LOCATIONS}
@@ -73,7 +104,7 @@ const AddGoCameModal = ({ setShow }) => {
           />
         </div>
 
-        <div className="">
+        <div className="flex gap-5">
           <SelectInput
             selectOptions={TRAVEL_TIME}
             label={"Departure Time"}
@@ -81,6 +112,35 @@ const AddGoCameModal = ({ setShow }) => {
               setForm({ ...form, departureTime: e.target.value });
             }}
             value={form.departureTime}
+          />
+          <SelectInput
+            selectOptions={TRAVEL_TIME}
+            label={"Arrival Time"}
+            onChange={(e) => {
+              setForm({ ...form, arrivalTimeTime: e.target.value });
+            }}
+            value={form.arrivalTime}
+          />
+        </div>
+
+        <div className="flex gap-5">
+          <DateInput
+            // selectOptions={TRAVEL_TIME}
+            label={"Departure Date"}
+            type={"date"}
+            onChange={(e) => {
+              setForm({ ...form, departureDate: e.target.value });
+            }}
+            value={form.departureDate}
+          />
+          <DateInput
+            // selectOptions={TRAVEL_TIME}
+            label={"Arrival Date"}
+            type={"date"}
+            onChange={(e) => {
+              setForm({ ...form, arrivalDate: e.target.value });
+            }}
+            value={form.arrivalDate}
           />
         </div>
 
