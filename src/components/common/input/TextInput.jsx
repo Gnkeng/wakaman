@@ -16,7 +16,7 @@ const TextInput = ({
         {label}
       </label>
       <input
-        className={` border border-slate-300 rounded w-full py-4 px-3 text-secondary font-normal text-[17px] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[17px] placeholder:font-normal focus:ring-1  ${
+        className={` border border-slate-300 rounded w-full py-3 px-3 text-secondary font-normal text-[17px] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[17px] placeholder:font-normal focus:ring-1  ${
           value.length > 2
             ? "focus:ring-1 focus:ring-validColor"
             : value.length === 0

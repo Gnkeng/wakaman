@@ -1,19 +1,19 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user:null
+  customer:null
 };
 
 export const customerSlice = createSlice({
-  name: "student",
+  name: "customer",
   initialState,
   reducers: {
     customerInfo: (state, action) => {
-      // state.username=action.payload.username
-      state= action.payload
+      // state.agencyname=action.payload.agencyname
+      state.customer= action.payload
     },
     resetCustomerInfo: (state) => {
-      state.user=null
+      state.customer=null
     },
   },
 });

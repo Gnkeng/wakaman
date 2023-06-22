@@ -5,15 +5,32 @@ import Button from '../../components/common/button/Button';
 import { useNavigate } from "react-router-dom";
 import SelectInput from '../../components/common/input/SelectInput';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase-config';
+import { auth,db } from '../../firebase-config';
+import { getDoc, collection, addDoc,getDocs,query ,where} from "firebase/firestore";
+import { onAuthStateChanged } from 'firebase/auth';
+import { useDispatch,useSelector } from 'react-redux';
+// import { customerInfo } from '../../store/customer/customerSlice';
+import { agencyInfo } from '../../store/agency/agencySlice';
+
+
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const customerSlice = useSelector((state)=> state.customer)
+
+
+  const [userEmail, setUserEmail] = useState('');
+  const [presentUser, setPresentUser] = useState({});
+  
   const [form, setForm] = useState({
     email:'',
     password:'',
     role:''
   });
+
+  // console.log(presentUser);
 
   const [error,setError]=useState({
     email: '',
@@ -21,7 +38,7 @@ const Login = () => {
     role:''
   })
 
-        const [firebaseErr, setFirebaseErr] = useState("");
+  const [firebaseErr, setFirebaseErr] = useState("");
 
 
    
@@ -34,20 +51,106 @@ const Login = () => {
        return  setError({...error,password:'Password must be at least 6 characters'})
       }
       if(form.role === 'customer'){
+        console.log('am a customer');
         try {
       const customer = await signInWithEmailAndPassword(
         auth,
         form.email,
         form.password
       );
-      console.log(customer);
-      navigate("/agency-home");
+
+         const customerRef = collection(db, "customers");
+         onAuthStateChanged(auth, (currentUser) => {
+           setUserEmail(currentUser.email);
+         });
+
+         try{
+          
+           const q = query(customerRef, where("email", "==", form.email));
+          //  setPresentUser(q);
+           const querySnapshot = await getDocs(q);
+           querySnapshot.forEach((doc) => {
+            //  if (doc.data()) {
+            //    setPresentUser(doc.data());
+            //    console.log(presentUser);
+            //  }
+            
+             // doc.data() is never undefined for query doc snapshots
+             console.log(doc.id, " => ", doc.data());
+            //  dispatch(customerInfo(doc.data()));
+            if(doc.data().email === form.email){
+            // console.log(doc.data().email);
+              // setPresentUser(doc.data().email);
+              // dispatch(customerInfo(doc.data()));
+
+              // console.log(presentUser)
+              // console.log(customerSlice);
+
+              navigate("/customer-home");
+
+            }
+
+           
+
+             
+
+             
+           });
+           
+
+         }catch(err){
+                  console.log(err.message);
+         }
+
+
+      // console.log(userEmail);
+     
       }catch(error){
-        console.log(error);
+        console.log(error.message);
         setFirebaseErr(error.message);
       }
-    }
+
+
+
       
+    }
+      else{
+
+        try{
+           const agency = await signInWithEmailAndPassword(
+             auth,
+             form.email,
+             form.password
+           );
+
+            const agencyRef = collection(db, "agency");
+            onAuthStateChanged(auth, (currentUser) => {
+              setUserEmail(currentUser.email);
+            });
+             try {
+               const q = query(agencyRef, where("email", "==", userEmail));
+               setPresentUser(q);
+               const querySnapshot = await getDocs(q);
+               querySnapshot.forEach((doc) => {
+                 // doc.data() is never undefined for query doc snapshots
+                 console.log(doc.id, " => ", doc.data());
+                 dispatch(agencyInfo(doc.data()));
+               });
+                navigate("/agency-home");
+             } catch (err) {
+               console.log(err.message);
+             }
+
+              
+
+
+        }catch(err){
+          console.log(error.message);
+          setFirebaseErr(error.message);
+
+        }
+
+      }
                   
 
       
@@ -120,6 +223,7 @@ const Login = () => {
               buttonType="PRIMARY"
               text={"login"}
               fullWidth={true}
+              onClick={handleSubmit}
             />
           </div>
         </form>
