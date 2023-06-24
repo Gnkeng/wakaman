@@ -73,9 +73,9 @@ const AgencySignup = () => {
             totalStars:0,
           });
 
-          console.log("user is", agency);
-          console.log(agencyCollectionRef);
-          console.log(form);
+          // console.log("user is", agency);
+          // console.log(agencyCollectionRef);
+          // console.log(form);
           navigate("/agency-home");
         } catch (error) {
           console.log(error.message);

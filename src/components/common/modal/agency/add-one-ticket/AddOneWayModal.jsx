@@ -15,6 +15,8 @@ const AddOneWayModal = ({ setShow }) => {
   const [currentAgency, setCurrentAgency] = useState("");
   const agencySlice = useSelector((state)=> state.agency)
 
+  // console.log(agencySlice?.agency?.email);
+
 
   onAuthStateChanged(auth, (currentUser) => {
     setCurrentAgency(currentUser);
@@ -27,6 +29,7 @@ const AddOneWayModal = ({ setShow }) => {
     availableSeats: "",
     departureDate: "",
     departureTime: "",
+    price:''
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,7 +43,9 @@ const AddOneWayModal = ({ setShow }) => {
         occupiedSeats: 0,
         departureDate: form.departureDate,
         departureTime: form.departureTime,
-        agencyEmail:agencySlice?.agency?.email
+        agencyEmail:agencySlice?.agency?.email,
+        price:form.price,
+        agencyName:agencySlice?.agency?.agencyname
         // user: { email: currentAgency?.email },
       });
        setShow(false);
@@ -80,7 +85,7 @@ const AddOneWayModal = ({ setShow }) => {
           />
         </div>
 
-        <div className="">
+        <div className="w-full flex justify-between">
           <TextInput
             label={"Bus Type"}
             type={"text"}
@@ -92,9 +97,6 @@ const AddOneWayModal = ({ setShow }) => {
             value={form.busType}
             required={true}
           />
-        </div>
-
-        <div>
           <TextInput
             label={"Available Seats"}
             type={"number"}
@@ -102,6 +104,18 @@ const AddOneWayModal = ({ setShow }) => {
               setForm({ ...form, availableSeats: e.target.value });
             }}
             value={form.availableSeats}
+            required={true}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label={"Price"}
+            type={"number"}
+            onChange={(e) => {
+              setForm({ ...form, price: e.target.value });
+            }}
+            value={form.price}
             required={true}
           />
         </div>

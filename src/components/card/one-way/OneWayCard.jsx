@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '../../common/button/Button';
 
-const OneWayCard = ({ setShow ,forAgency}) => {
+const OneWayCard = ({ setShow ,forAgency,from,to, departureDate,departureTime,busType,availableSeats,price,agencyName,deleteTicket}) => {
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
@@ -14,21 +14,21 @@ const OneWayCard = ({ setShow ,forAgency}) => {
           <div className="flex items-center gap-28">
             <div>
               <h3>From</h3>
-              <h3>Buea</h3>
+              <h3>{from}</h3>
             </div>
             <div>
               <h3>To</h3>
-              <h3>Limbe</h3>
+              <h3>{to}</h3>
             </div>
           </div>
           <div className="flex items-center gap-10 mt-5">
             <div>
               <h3>Depature Date</h3>
-              <h3>Oct 27 2023</h3>
+              <h3>{departureDate}</h3>
             </div>
             <div>
-              <h3>Arrival Time</h3>
-              <h3>9:00pm</h3>
+              <h3>Departure Time</h3>
+              <h3>{departureTime}</h3>
             </div>
           </div>
         </div>
@@ -39,9 +39,9 @@ const OneWayCard = ({ setShow ,forAgency}) => {
 
         <div>
           <div>
-            <h3>VIP G4</h3>
-            <h3>50 seats</h3>
-            <h3>Buea</h3>
+            <h3> {busType}</h3>
+            <h3>{availableSeats} seats</h3>
+            <h3>{from}</h3>
           </div>
 
           <div>{/* an image */}</div>
@@ -50,12 +50,12 @@ const OneWayCard = ({ setShow ,forAgency}) => {
 
       <div className="mt-7">
         <div className="flex justify-between">
-          <h3>5000 XFCA</h3>
-          <h3> Musango Bus Service</h3>
+          <h3>{price.toString().toLocaleString("en-US")} FCFA</h3>
+          <h3> {agencyName}</h3>
         </div>
 
         {forAgency ? (
-          <div className='w-full mt-5 flex gap-5 '>
+          <div className="w-full mt-5 flex gap-5 ">
             <Button
               // onClick={() => setShow(true)}
               text={"Edit"}
@@ -68,6 +68,7 @@ const OneWayCard = ({ setShow ,forAgency}) => {
               text={"Delete"}
               buttonType={"OUTLINE"}
               fullWidth={true}
+              onClick={deleteTicket}
             />
           </div>
         ) : (
