@@ -10,7 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddOneWayModal = ({ setShow }) => {
+const AddOneWayModal = ({ setShow, trigger, setTrigger }) => {
   const [currentAgency, setCurrentAgency] = useState("");
   const agencySlice = useSelector((state) => state.agency);
 
@@ -46,6 +46,7 @@ const AddOneWayModal = ({ setShow }) => {
         agencyName: agencySlice?.agency?.agencyname,
         // user: { email: currentAgency?.email },
       });
+      setTrigger(!trigger);
       setShow(false);
       // console.log(ticketCollectionRef);
     } catch (error) {

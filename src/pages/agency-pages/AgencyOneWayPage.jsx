@@ -5,6 +5,7 @@ import Header from "../../components/common/header/Header";
 import Button from "../../components/common/button/Button";
 import ModalContainer from "../../components/common/modal/modal-container/ModalContainer";
 import AddOneWayModal from "../../components/common/modal/agency/add-one-ticket/AddOneWayModal";
+import { oneWayTicketsInfo } from "../../store/oneWayTickets/oneWayTicketsSlice";
 import {
   getDoc,
   collection,
@@ -16,13 +17,17 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
+// import { oneWayTicketsInfo } from "../../store/oneWayTickets/oneWayTicketsSlice";
 const AgencyOneWayPage = () => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [ticketsList, setTicketsList] = useState([]);
   const [currentEmail, setCurrentEmail] = useState("");
+  const [trigger, setTrigger] = useState(false);
   const agencySlice = useSelector((state) => state.agency);
+  const ticketsSlice = useSelector((state) => state.oneWayTickets);
 
   // console.log(currentEmail);
 
@@ -52,9 +57,13 @@ const AgencyOneWayPage = () => {
     };
 
     getOneWayTickets();
-  }, [currentEmail]);
+  }, [currentEmail, trigger]);
 
   console.log(ticketsList);
+
+  dispatch(oneWayTicketsInfo(ticketsList));
+
+  // console.log(ticketsSlice);
 
   const closeModal = () => {
     setShow(false);
@@ -64,6 +73,7 @@ const AgencyOneWayPage = () => {
     try {
       const docRef = doc(db, "oneWayTickets", id);
       await deleteDoc(docRef);
+      setTrigger(!trigger);
     } catch (err) {
       console.log(err.message);
     }
@@ -103,7 +113,11 @@ const AgencyOneWayPage = () => {
       </div>
 
       <ModalContainer onClose={closeModal} width={"700px"} show={show}>
-        <AddOneWayModal setShow={setShow} />
+        <AddOneWayModal
+          setShow={setShow}
+          trigger={trigger}
+          setTrigger={setTrigger}
+        />
       </ModalContainer>
     </div>
   );
