@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import TextInput from "../../components/common/input/TextInput";
-import PasswordInput from "../../components/common/input/PasswordInput";
-import Button from "../../components/common/button/Button";
-import { useNavigate } from "react-router-dom";
-import SelectInput from "../../components/common/input/SelectInput";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebase-config";
+import React, { useState } from 'react';
+import TextInput from '../../components/common/input/TextInput';
+import PasswordInput from '../../components/common/input/PasswordInput';
+import Button from '../../components/common/button/Button';
+import { useNavigate } from 'react-router-dom';
+import SelectInput from '../../components/common/input/SelectInput';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../../firebase-config';
 import {
   getDoc,
   collection,
@@ -13,11 +13,12 @@ import {
   getDocs,
   query,
   where,
-} from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch, useSelector } from "react-redux";
+} from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
 // import { customerInfo } from '../../store/customer/customerSlice';
-import { agencyInfo } from "../../store/agency/agencySlice";
+import { agencyInfo } from '../../store/agency/agencySlice';
+import Loader from '../../components/common/button/Loader';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,35 +26,37 @@ const Login = () => {
 
   const customerSlice = useSelector((state) => state.customer);
 
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const [presentUser, setPresentUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-    role: "",
+    email: '',
+    password: '',
+    role: '',
   });
 
   // console.log(presentUser);
 
   const [error, setError] = useState({
-    email: "",
-    password: "",
-    role: "",
+    email: '',
+    password: '',
+    role: '',
   });
 
-  const [firebaseErr, setFirebaseErr] = useState("");
+  const [firebaseErr, setFirebaseErr] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     if (form.password.length < 6) {
       return setError({
         ...error,
-        password: "Password must be at least 6 characters",
+        password: 'Password must be at least 6 characters',
       });
     }
-    if (form.role === "customer") {
-      console.log("am a customer");
+    if (form.role === 'customer') {
+      console.log('am a customer');
       try {
         const customer = await signInWithEmailAndPassword(
           auth,
@@ -61,13 +64,13 @@ const Login = () => {
           form.password
         );
 
-        const customerRef = collection(db, "customers");
+        const customerRef = collection(db, 'customers');
         onAuthStateChanged(auth, (currentUser) => {
           setUserEmail(currentUser.email);
         });
 
         try {
-          const q = query(customerRef, where("email", "==", form.email));
+          const q = query(customerRef, where('email', '==', form.email));
           //  setPresentUser(q);
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
@@ -77,7 +80,7 @@ const Login = () => {
             //  }
 
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
+            console.log(doc.id, ' => ', doc.data());
             //  dispatch(customerInfo(doc.data()));
             if (doc.data().email === form.email) {
               // console.log(doc.data().email);
@@ -87,7 +90,7 @@ const Login = () => {
               // console.log(presentUser)
               // console.log(customerSlice);
 
-              navigate("/customer-home");
+              navigate('/customer-home');
             }
           });
         } catch (err) {
@@ -109,7 +112,7 @@ const Login = () => {
 
         console.log(agency);
 
-        const agencyRef = collection(db, "agency");
+        const agencyRef = collection(db, 'agency');
         onAuthStateChanged(auth, (currentUser) => {
           setUserEmail(currentUser.email);
         });
@@ -117,15 +120,15 @@ const Login = () => {
         console.log(userEmail);
         if (userEmail) {
           try {
-            const q = query(agencyRef, where("email", "==", userEmail));
+            const q = query(agencyRef, where('email', '==', userEmail));
             setPresentUser(q);
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
+              console.log(doc.id, ' => ', doc.data());
               dispatch(agencyInfo(doc.data()));
             });
-            navigate("/agency-home");
+            navigate('/agency-home');
           } catch (err) {
             console.log(err.message);
           }
@@ -145,6 +148,7 @@ const Login = () => {
           </h1>
         </div>
 
+        <Loader />
         <form className="mt-4" onSubmit={handleSubmit}>
           <div>
             <TextInput
@@ -174,21 +178,21 @@ const Login = () => {
             {error.password ? (
               <p className="text-red-400 mb-3">{error.password}</p>
             ) : (
-              ""
+              ''
             )}
           </div>
 
           <div>
             <SelectInput
-              label={"How do you want to Login"}
+              label={'How do you want to Login'}
               selectOptions={[
                 {
-                  label: "Passenger",
-                  value: "customer",
+                  label: 'Passenger',
+                  value: 'customer',
                 },
                 {
-                  label: "Agency",
-                  value: "agency",
+                  label: 'Agency',
+                  value: 'agency',
                 },
               ]}
               onChange={(e) => {
@@ -200,11 +204,12 @@ const Login = () => {
           {firebaseErr && <p>{firebaseErr}</p>}
           <div>
             <Button
-              type={"submit"}
+              type={'submit'}
               buttonType="PRIMARY"
-              text={"login"}
+              text={'login'}
               fullWidth={true}
               onClick={handleSubmit}
+              loading={loading}
             />
           </div>
         </form>

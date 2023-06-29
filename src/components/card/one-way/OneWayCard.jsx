@@ -50,7 +50,7 @@ const OneWayCard = ({ setShow ,forAgency,from,to, departureDate,departureTime,bu
 
       <div className="mt-7">
         <div className="flex justify-between">
-          <h3>{price.toString().toLocaleString("en-US")} FCFA</h3>
+          <h3>{price?.toString().toLocaleString("en-US")} FCFA</h3>
           <h3> {agencyName}</h3>
         </div>
 

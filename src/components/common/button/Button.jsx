@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from './Loader';
 
 const Button = ({
   text,
@@ -10,7 +11,8 @@ const Button = ({
   icon,
   type,
   fontweight,
-  fontsize
+  loading,
+  fontsize,
 }) => {
   return (
     <button
@@ -37,8 +39,8 @@ const Button = ({
             : width !== undefined
             ? width
             : 'fit-content',
-            fontWeight: fontweight ? fontweight: 'normal',
-            fontSize: fontsize ? fontsize: ' text-[16px] ',
+        fontWeight: fontweight ? fontweight : 'normal',
+        fontSize: fontsize ? fontsize : ' text-[16px] ',
       }}
     >
       {icon ? (
@@ -46,7 +48,7 @@ const Button = ({
       ) : (
         ''
       )}
-      {text}
+      {loading ? 'Loading...' : text}
     </button>
   );
 };
