@@ -9,26 +9,23 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 
-
-
-const AddGoCameModal = ({ setShow }) => {
+const AddGoCameModal = ({ setShow, trigger, setTrigger }) => {
   const agencySlice = useSelector((state) => state.agency);
-     
 
-     const [form, setForm] = useState({
-       to: "",
-       from: "",
-       busType: "",
-       availableSeats: "",
-       departureTime: "",
-       arrivalTime:'',
-       departureDate: "",
-       arrivalDate:'',
-     });
+  const [form, setForm] = useState({
+    to: "",
+    from: "",
+    busType: "",
+    availableSeats: "",
+    departureTime: "",
+    arrivalTime: "",
+    departureDate: "",
+    arrivalDate: "",
+  });
 
-     const handleSubmit = async (event) => {
-       event.preventDefault();
-        try {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
       const ticketCollectionRef = collection(db, "goCameTickets");
       await addDoc(ticketCollectionRef, {
         to: form.to,
@@ -43,14 +40,14 @@ const AddGoCameModal = ({ setShow }) => {
         agencyEmail: agencySlice?.agency?.email,
         // user: { email: currentAgency?.email },
       });
+      setTrigger(!trigger);
       setShow(false);
       // console.log(ticketCollectionRef);
     } catch (error) {
       console.log(error.message);
     }
-      //  console.log(form);
-       
-     };
+    //  console.log(form);
+  };
   return (
     <div>
       <h1 className="text-2xl  text-center font-bold">Go and Come</h1>
@@ -117,7 +114,7 @@ const AddGoCameModal = ({ setShow }) => {
             selectOptions={TRAVEL_TIME}
             label={"Arrival Time"}
             onChange={(e) => {
-              setForm({ ...form, arrivalTimeTime: e.target.value });
+              setForm({ ...form, arrivalTime: e.target.value });
             }}
             value={form.arrivalTime}
           />
@@ -157,4 +154,4 @@ const AddGoCameModal = ({ setShow }) => {
   );
 };
 
-export default AddGoCameModal
+export default AddGoCameModal;
