@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SelectInput from "../../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../../constants/constant";
@@ -8,15 +8,13 @@ import DateInput from "../../../input/DateInput";
 import { getDoc, collection, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../../../../firebase-config";
-import { useDispatch,useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from "react-redux";
 
 const AddOneWayModal = ({ setShow }) => {
   const [currentAgency, setCurrentAgency] = useState("");
-  const agencySlice = useSelector((state)=> state.agency)
+  const agencySlice = useSelector((state) => state.agency);
 
-  // console.log(agencySlice?.agency?.email);
-
+  console.log(agencySlice?.agency?.email);
 
   onAuthStateChanged(auth, (currentUser) => {
     setCurrentAgency(currentUser);
@@ -29,7 +27,7 @@ const AddOneWayModal = ({ setShow }) => {
     availableSeats: "",
     departureDate: "",
     departureTime: "",
-    price:''
+    price: "",
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,18 +41,17 @@ const AddOneWayModal = ({ setShow }) => {
         occupiedSeats: 0,
         departureDate: form.departureDate,
         departureTime: form.departureTime,
-        agencyEmail:agencySlice?.agency?.email,
-        price:form.price,
-        agencyName:agencySlice?.agency?.agencyname
+        agencyEmail: agencySlice?.agency?.email,
+        price: form.price,
+        agencyName: agencySlice?.agency?.agencyname,
         // user: { email: currentAgency?.email },
       });
-       setShow(false);
+      setShow(false);
       // console.log(ticketCollectionRef);
     } catch (error) {
       console.log(error.message);
     }
     // console.log(form);
-   
   };
 
   //  console.log(currentAgency);
