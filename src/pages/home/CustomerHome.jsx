@@ -1,87 +1,69 @@
-import React,{useState,useEffect} from 'react'
-import SelectButton from '../../components/common/button/SelectButton'
-import Button from '../../components/common/button/Button'
-import ModalContainer from '../../components/common/modal/modal-container/ModalContainer'
-import OneWayModal from '../../components/common/modal/one-way-modal/OneWayModal'
-import GoCameModal from '../../components/common/modal/go-came-modal/GoCameModal'
+import React, { useState, useEffect } from "react";
+import SelectButton from "../../components/common/button/SelectButton";
+import Button from "../../components/common/button/Button";
+import ModalContainer from "../../components/common/modal/modal-container/ModalContainer";
+import OneWayModal from "../../components/common/modal/one-way-modal/OneWayModal";
+import GoCameModal from "../../components/common/modal/go-came-modal/GoCameModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  collection,
-  getDocs,
-  
-} from "firebase/firestore";
-import { db,auth } from '../../firebase-config'
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
-import { customerInfo } from '../../store/customer/customerSlice'
-
-
+import { customerInfo } from "../../store/customer/customerSlice";
 
 const CustomerHome = () => {
-    const customerSlice = useSelector((state) => state.customer);
+  const customerSlice = useSelector((state) => state.customer);
 
-    console.log('customerSlice', customerSlice)
+  // console.log("customerSlice", customerSlice);
 
-  const [active, setActive] = useState(0)
-  const [show, setShow] = useState(false)
-  const [userID, setUserID] = useState();
+  const [active, setActive] = useState(0);
+  const [show, setShow] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   const [allCustomers, setAllCustomers] = useState([]);
+  const [singleCustomer, setSingleCustomer] = useState({});
   const dispatch = useDispatch();
 
-   const customerCollectionRef = collection(db, "customers");
-
- 
-
+  const customerCollectionRef = collection(db, "customers");
 
   useEffect(() => {
-     const getStudents = async () => {
-       const data = await getDocs(customerCollectionRef);
+    const getCustomers = async () => {
+      const data = await getDocs(customerCollectionRef);
       setAllCustomers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       // const customerRef = collection(db, "customers");
       onAuthStateChanged(auth, (currentUser) => {
-        setUserID(currentUser.uid);
+        setUserEmail(currentUser.email);
       });
 
-       allCustomers.map((customer) => {
-         if (customer.email === auth.currentUser.email) {
-           dispatch(customerInfo(customer));
+      const customerRef = collection(db, "customers");
+      const q = query(customerRef, where("email", "==", userEmail));
 
-           console.log("customer", customer.email);
-           
-         }
-        console.log(customer.email);
-       });
-     }; 
+      const querySnapshot = await getDocs(q);
+      setSingleCustomer(
+        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    };
 
-
-    getStudents();
-
-    
-  },[]);
+    getCustomers();
+  }, [userEmail]);
 
   const navigate = useNavigate();
 
-    const handleSubmit = () => {
-     
-      navigate("/for-today");
-    };
+  const handleSubmit = () => {
+    navigate("/for-today");
+  };
 
   const handleWayClick = () => {
-
-    setActive(1)
-    setShow(true)
-
- }
+    setActive(1);
+    setShow(true);
+  };
 
   const handleGoClick = () => {
-
-    setActive(2)
+    setActive(2);
     setShow(true);
+  };
 
- }
-
- console.log(allCustomers)
+  // console.log(singleCustomer);
 
   return (
     <div
@@ -93,7 +75,7 @@ const CustomerHome = () => {
 
         <div className="w-full mt-10 mb-10">
           <h1 className="text-5xl text-dark ">
-            What Type of Trip do you want ?
+            {singleCustomer[0]?.firstname}, What Type of Trip do you want ?
           </h1>
         </div>
 
@@ -113,7 +95,7 @@ const CustomerHome = () => {
         </div>
       </div>
 
-      <div className='' >
+      <div className="">
         <Button
           type={"submit"}
           buttonType="PRIMARY"
@@ -121,17 +103,25 @@ const CustomerHome = () => {
           fullWidth={true}
           onClick={handleSubmit}
         />
-        
       </div>
-      <ModalContainer onClose={()=>{setShow(false)}} width={'700px'} show={show}>
+      <ModalContainer
+        onClose={() => {
+          setShow(false);
+        }}
+        width={"700px"}
+        show={show}
+      >
         {/* <OneWayModal/> */}
-        {
-          active ===1 ?<OneWayModal/>:active === 2?   <GoCameModal/>:<p>hi</p>
-        }
-   
+        {active === 1 ? (
+          <OneWayModal />
+        ) : active === 2 ? (
+          <GoCameModal />
+        ) : (
+          <p>hi</p>
+        )}
       </ModalContainer>
     </div>
   );
-}
+};
 
-export default CustomerHome
+export default CustomerHome;
