@@ -1,30 +1,37 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
 import SelectInput from "../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../constants/constant";
 import DateInput from "../../input/DateInput";
 import Button from "../../button/Button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const GoCameModal = () => {
   const navigate = useNavigate();
 
-  
-     const [form, setForm] = useState({
-       to: "",
-       from: "",
-       arrivalDate: "",
-       departureDate: "",
-       arrivalTime:'',
-       departureTime:''
-     });
+  const [form, setForm] = useState({
+    to: "",
+    from: "",
+    arrivalDate: "",
+    departureDate: "",
+    arrivalTime: "",
+    departureTime: "",
+  });
 
-   const handleSubmit = (event) => {
-      event.preventDefault();
-      console.log(form);
-   
-     navigate("/go-came");
-   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(form);
 
+    navigate("/go-came", {
+      state: {
+        to: form.to,
+        from: form.from,
+        departureDate: form.departureDate,
+        arrivalDate: form.arrivalDate,
+        departureTime: form.departureTime,
+        arrivalTime: form.arrivalTime,
+      },
+    });
+  };
 
   return (
     <div>
@@ -97,6 +104,6 @@ const GoCameModal = () => {
       </form>
     </div>
   );
-}
+};
 
-export default GoCameModal
+export default GoCameModal;
