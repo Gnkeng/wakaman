@@ -1,8 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import Button from '../../common/button/Button';
+import Button from "../../common/button/Button";
 
-const OneWayCard = ({ setShow ,forAgency,from,to, departureDate,departureTime,busType,availableSeats,price,agencyName,deleteTicket}) => {
+const OneWayCard = ({
+  setShow,
+  forAgency,
+  from,
+  to,
+  departureDate,
+  departureTime,
+  busType,
+  availableSeats,
+  price,
+  agencyName,
+  deleteTicket,
+}) => {
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
@@ -50,7 +62,7 @@ const OneWayCard = ({ setShow ,forAgency,from,to, departureDate,departureTime,bu
 
       <div className="mt-7">
         <div className="flex justify-between">
-          <h3>{price.toString().toLocaleString("en-US")} FCFA</h3>
+          <h3>{price?.toString().toLocaleString("en-US")} FCFA</h3>
           <h3> {agencyName}</h3>
         </div>
 
