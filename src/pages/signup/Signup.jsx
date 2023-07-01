@@ -1,94 +1,89 @@
-import React ,{useState} from 'react'
+import React, { useState } from 'react';
 import TextInput from '../../components/common/input/TextInput';
 import PasswordInput from '../../components/common/input/PasswordInput';
 import Button from '../../components/common/button/Button';
-import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth ,db} from "../../firebase-config";
-import { getDoc, collection, addDoc } from "firebase/firestore";
-
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../../firebase-config';
+import { getDoc, collection, addDoc } from 'firebase/firestore';
 
 // import styles from './signup.module.css'
 
 const Signup = () => {
   const navigate = useNavigate();
-    const [form, setForm] = useState({
-       firstname: "",
-      lastname: "",
-      email:'',
-      password:'',
-      confirmpassword: '',
-    });
+  const [form, setForm] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    confirmpassword: '',
+  });
 
-      const [firebaseErr, setFirebaseErr] = useState("");
-    const [error, setError] = useState({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      confirmpassword: "",
-    });
+  const [firebaseErr, setFirebaseErr] = useState('');
+  const [error, setError] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    confirmpassword: '',
+  });
 
-      const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (form.password.length < 6) {
-          return setError({
-            ...error,
-            password: "Password must be at least 6 characters",
-          });
-        }  if (form.confirmpassword.length < 6) {
-          return setError({
-            ...error,
-            confirmpassword: "Password must be at least 6 characters",
-          });
-        }
+  const [loading, setLoading] = useState(false);
 
-         if (form.password.length < 6 && form.confirmpassword.length < 6){
-          return setError({
-            ...error,
-            password: "Password must be at least 6 characters",
-            confirmpassword: "Password must be at least 6 characters",
-          });
-        }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    if (form.password.length < 6) {
+      return setError({
+        ...error,
+        password: 'Password must be at least 6 characters',
+      });
+    }
+    if (form.confirmpassword.length < 6) {
+      return setError({
+        ...error,
+        confirmpassword: 'Password must be at least 6 characters',
+      });
+    }
 
-        if(form.password !== form.confirmpassword) {
-          return setError({
-            ...error,
-            password: "Passwords do not match",
-          });
-        }
+    if (form.password.length < 6 && form.confirmpassword.length < 6) {
+      return setError({
+        ...error,
+        password: 'Password must be at least 6 characters',
+        confirmpassword: 'Password must be at least 6 characters',
+      });
+    }
+    if (form.password !== form.confirmpassword) {
+      return setError({
+        ...error,
+        password: 'Passwords do not match',
+      });
+    }
 
-        try{
-          const customer = await createUserWithEmailAndPassword(
+    try {
+      const customer = await createUserWithEmailAndPassword(
         auth,
         form.email,
         form.password
       );
 
+      const customerCollectionRef = collection(db, 'customers');
+      await addDoc(customerCollectionRef, {
+        firstname: form.firstname,
+        lastname: form.lastname,
+        email: form.email,
+      });
 
- const customerCollectionRef = collection(db, "customers");
- await addDoc(customerCollectionRef, {
-  firstname:form.firstname,
-  lastname:form.lastname,
-   email:form.email,
- });
-
-
-
-      console.log("user is", customer);
+      console.log('user is', customer);
       console.log(customerCollectionRef);
-       console.log(form);
-       navigate("/customer-home");
-        }catch(error){
+      console.log(form);
+      navigate('/customer-home');
+    } catch (error) {
       console.log(error.message);
-      setFirebaseErr(error.message)
-        }
-          
-       
-      };
+      setFirebaseErr(error.message);
+    }
+  };
 
-
-    
   return (
     <div className="bg-mid h-screen  flex flex-row justify-center items-center  ">
       <div className="w-[500px] h-[680px] py-5 px-10 bg-white rounded-lg ">
@@ -138,7 +133,7 @@ const Signup = () => {
               required={true}
             />
 
-            {firebaseErr &&(<p>{firebaseErr}</p> )}
+            {firebaseErr && <p>{firebaseErr}</p>}
           </div>
           <div>
             <PasswordInput
@@ -155,7 +150,7 @@ const Signup = () => {
             {error.password ? (
               <p className="text-red-400 ">{error.password}</p>
             ) : (
-              ""
+              ''
             )}
           </div>
           <div>
@@ -173,21 +168,22 @@ const Signup = () => {
             {error.confirmpasswordpassword ? (
               <p className="text-red-400">{error.password}</p>
             ) : (
-              ""
+              ''
             )}
           </div>
           <div>
             <Button
-              type={"submit"}
+              type={'submit'}
               buttonType="PRIMARY"
-              text={"Register"}
+              text={'Register'}
               fullWidth={true}
+              loading={loading}
             />
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default Signup
+export default Signup;

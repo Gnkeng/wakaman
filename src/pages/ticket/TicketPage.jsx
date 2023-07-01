@@ -1,6 +1,9 @@
+
 import React, { useEffect, useState } from "react";
 import OneWayTicket from "../../components/common/tickets/OneWayTicket";
 import GoCameTicket from "../../components/common/tickets/GoCameTicket";
+import RateAgency from '../../components/card/review-card/RateAgencyCard';
+import ModalContainer from '../../components/common/modal/modal-container/ModalContainer';
 import {
   getDoc,
   getDocs,
@@ -16,8 +19,16 @@ import { useDispatch, useSelector } from "react-redux";
 const TicketPage = () => {
   const customerSlice = useSelector((state) => state.customer);
   const [purchasedTicketsList, setPurchasedTicketsList] = useState([]);
+  const [show, setShow] = useState(false);
 
   console.log(customerSlice);
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
+  const closeModal = () => {
+    setShow(false);
+  };
   useEffect(() => {
     const getPurchasedTickets = async () => {
       const purchasedTicketsRef = collection(db, "purchasedTickets");
@@ -41,6 +52,7 @@ const TicketPage = () => {
     getPurchasedTickets();
   }, []);
 
+
   return (
     <div className="h-screen ">
       <div className="text-center pt-4">
@@ -48,6 +60,12 @@ const TicketPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-10 mt-6">
+
+        <ModalContainer onClose={closeModal} width={'700px'} show={show}>
+          <RateAgency setShow={setShow} />
+        </ModalContainer>
+       
+
         {purchasedTicketsList.map((ticket, index) => {
           return (
             <OneWayTicket
@@ -62,8 +80,8 @@ const TicketPage = () => {
             />
           );
         })}
-        {/* <OneWayTicket />
-        <GoCameTicket /> */}
+      
+
       </div>
     </div>
   );
