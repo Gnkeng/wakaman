@@ -1,9 +1,13 @@
 import React from "react";
-
-import Button from "../../common/button/Button";
+import Button from '../../common/button/Button';
+import ModalContainer from '../../common/modal/modal-container/ModalContainer';
+import AddOneWayModal from '../../common/modal/agency/add-one-ticket/AddOneWayModal';
 
 const OneWayCard = ({
   setShow,
+  trigger,
+  setTrigger,
+  show,
   forAgency,
   from,
   to,
@@ -14,11 +18,21 @@ const OneWayCard = ({
   price,
   agencyName,
   deleteTicket,
+  handleEditTicket,
 }) => {
+  const closeModal = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
+
+}) => {
+
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
-      style={{ boxShadow: "0px 20px 25px rgba(76, 103, 100, 0.1)" }}
+      style={{ boxShadow: '0px 20px 25px rgba(76, 103, 100, 0.1)' }}
     >
       {/* header */}
       <div className="flex justify-between items-center border-b border-slate-300 pb-7">
@@ -62,7 +76,9 @@ const OneWayCard = ({
 
       <div className="mt-7">
         <div className="flex justify-between">
-          <h3>{price?.toString().toLocaleString("en-US")} FCFA</h3>
+
+          <h3>{price} FCFA</h3>
+
           <h3> {agencyName}</h3>
         </div>
 
@@ -70,15 +86,24 @@ const OneWayCard = ({
           <div className="w-full mt-5 flex gap-5 ">
             <Button
               // onClick={() => setShow(true)}
-              text={"Edit"}
-              buttonType={"PRIMARY"}
+              text={'Edit'}
+              buttonType={'PRIMARY'}
               fullWidth={true}
+              onClick={handleEditTicket}
             />
+
+            <ModalContainer onClose={closeModal} width={'700px'} show={show}>
+              <AddOneWayModal
+                setShow={setShow}
+                trigger={trigger}
+                setTrigger={setTrigger}
+              />
+            </ModalContainer>
 
             <Button
               // onClick={() => setShow(true)}
-              text={"Delete"}
-              buttonType={"OUTLINE"}
+              text={'Delete'}
+              buttonType={'OUTLINE'}
               fullWidth={true}
               onClick={deleteTicket}
             />
@@ -87,8 +112,8 @@ const OneWayCard = ({
           <div className="mt-5">
             <Button
               onClick={() => setShow(true)}
-              text={"Book One Way Ticket"}
-              buttonType={"PRIMARY"}
+              text={'Book One Way Ticket'}
+              buttonType={'PRIMARY'}
               fullWidth={true}
             />
           </div>

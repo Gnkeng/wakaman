@@ -4,9 +4,9 @@ import StarRating from './star-rating/StarRatingsComponent';
 const RateAgency = () => {
   return (
     <div
-      className="px-10 w-[500px] bg-white py-4 mb-6 border rounded-lg"
+      className="px-10  bg-transparent py-4 mb-6  rounded-lg"
       style={{
-        boxShadow: '0px 20px 25px rgba(76, 103, 100, 0.1)',
+        // boxShadow: '0px 20px 25px rgba(76, 103, 100, 0.1)',
         cursor: 'pointer',
         justifyContent: 'center',
         alignItems: 'center',
