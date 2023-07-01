@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React from "react";
 import Button from '../../common/button/Button';
 import ModalContainer from '../../common/modal/modal-container/ModalContainer';
 import AddOneWayModal from '../../common/modal/agency/add-one-ticket/AddOneWayModal';
@@ -27,6 +26,9 @@ const OneWayCard = ({
   const handleShow = () => {
     setShow(true);
   };
+
+}) => {
+
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
@@ -74,7 +76,9 @@ const OneWayCard = ({
 
       <div className="mt-7">
         <div className="flex justify-between">
+
           <h3>{price} FCFA</h3>
+
           <h3> {agencyName}</h3>
         </div>
 

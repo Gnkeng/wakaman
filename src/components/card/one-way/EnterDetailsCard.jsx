@@ -1,23 +1,27 @@
-import React ,{useState}from 'react';
-import TextInput from '../../common/input/TextInput';
+import React, { useState } from "react";
+import TextInput from "../../common/input/TextInput";
 import { useNavigate } from "react-router-dom";
-import Button from '../../common/button/Button';
+import Button from "../../common/button/Button";
 
-
-const EnterDetailsCard = ({ selectedOperator, setCurrentStep }) => {
-    const navigate = useNavigate();
+const EnterDetailsCard = ({
+  selectedOperator,
+  setCurrentStep,
+  ticketPrice,
+  purchaseTicket,
+}) => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    number: '',
+    number: ticketPrice,
   });
   return (
     <div className=" w-full  flex flex-col justify-center items-center text-center">
       <div className="text-2xl mb-10 font-bold">
-        {selectedOperator === 'MTN' ? (
+        {selectedOperator === "MTN" ? (
           <p>MOMO PAYMENT</p>
-        ) : selectedOperator === 'ORANGE' ? (
+        ) : selectedOperator === "ORANGE" ? (
           <p>ORANGE PAYMENT</p>
         ) : (
-          ''
+          ""
         )}
       </div>
       <div>
@@ -32,17 +36,17 @@ const EnterDetailsCard = ({ selectedOperator, setCurrentStep }) => {
           }}
         />
       </div>
-      <div className='flex gap-20'>
+      <div className="flex gap-20">
         <Button
           onClick={() => setCurrentStep(0)}
-          text={'Prev'}
-          buttonType={'OUTLINE'}
+          text={"Prev"}
+          buttonType={"OUTLINE"}
           fullWidth={true}
         />
         <Button
-          onClick={() =>  navigate("/customer-ticket")}
-          text={'PAY'}
-          buttonType={'PRIMARY'}
+          onClick={purchaseTicket}
+          text={"PAY"}
+          buttonType={"PRIMARY"}
           fullWidth={true}
         />
       </div>

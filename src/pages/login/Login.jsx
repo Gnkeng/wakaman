@@ -17,8 +17,11 @@ import {
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 // import { customerInfo } from '../../store/customer/customerSlice';
+
 import { agencyInfo } from '../../store/agency/agencySlice';
 import Loader from '../../components/common/button/Loader';
+import { customerInfo } from "../../store/customer/customerSlice";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,7 +31,11 @@ const Login = () => {
 
   const [userEmail, setUserEmail] = useState('');
   const [presentUser, setPresentUser] = useState({});
+
   const [loading, setLoading] = useState(false);
+
+  const [currentCustomer, setcurrentCustomer] = useState([{}]);
+
 
   const [form, setForm] = useState({
     email: '',
@@ -73,6 +80,9 @@ const Login = () => {
           const q = query(customerRef, where('email', '==', form.email));
           //  setPresentUser(q);
           const querySnapshot = await getDocs(q);
+          setPresentUser(
+            querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          );
           querySnapshot.forEach((doc) => {
             //  if (doc.data()) {
             //    setPresentUser(doc.data());
@@ -80,8 +90,14 @@ const Login = () => {
             //  }
 
             // doc.data() is never undefined for query doc snapshots
+
             console.log(doc.id, ' => ', doc.data());
             //  dispatch(customerInfo(doc.data()));
+
+           
+
+            dispatch(customerInfo(doc.data()));
+
             if (doc.data().email === form.email) {
               // console.log(doc.data().email);
               // setPresentUser(doc.data().email);
@@ -139,6 +155,10 @@ const Login = () => {
       }
     }
   };
+
+  // dispatch(customerInfo(currentCustomer));
+
+  console.log(customerSlice);
   return (
     <div className="bg-mid h-screen  flex flex-row justify-center items-center  ">
       <div className="w-[500px] h-[640px] py-5 px-10 bg-white rounded-lg ">

@@ -1,6 +1,15 @@
-import React from 'react'
+import React from "react";
 
-const OneWayTicket = () => {
+const OneWayTicket = ({
+  agencyName,
+  customerFirstName,
+  customerLastName,
+  to,
+  from,
+  departureDate,
+  departureTime,
+  price,
+}) => {
   return (
     <div
       className="px-10 w-[600px] bg-white py-4 mb-6 border rounded-lg"
@@ -13,19 +22,26 @@ const OneWayTicket = () => {
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-3">
           <h2>
-            <span className="font-bold">Agency:</span> Musango Bus Service
+            <span className="font-bold">Agency:</span> {agencyName}
           </h2>
           <h2>
-            <span className="font-bold">Customer name:</span> John Doe
+            <span className="font-bold">Customer name:</span>{" "}
+            {customerFirstName} {customerLastName}
           </h2>
           <h2>
-            <span className="font-bold">To:</span> Buea
+            <span className="font-bold">To:</span> {to}
           </h2>
           <h2>
-            <span className="font-bold">From :</span> Bamenda
+            <span className="font-bold">From :</span> {from}
           </h2>
           <h2>
-            <span className="font-bold">Departure Date:</span> 02/4/23
+            <span className="font-bold">Departure Date:</span> {departureDate}
+          </h2>
+          <h2>
+            <span className="font-bold">Departure Time:</span> {departureTime}
+          </h2>
+          <h2>
+            <span className="font-bold">Price:</span> {price}
           </h2>
         </div>
 
@@ -35,6 +51,6 @@ const OneWayTicket = () => {
       </div>
     </div>
   );
-}
+};
 
-export default OneWayTicket
+export default OneWayTicket;
