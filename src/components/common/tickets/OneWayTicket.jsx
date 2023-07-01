@@ -46,7 +46,9 @@ const OneWayTicket = ({
         </div>
 
         <div>
-          <div className="w-[100px] h-[100px] bg-dark"></div>
+          <div className="w-[100px] h-[100px]">
+            <img src="qrcode.png" alt="qr" className="w-full h-auto" />
+          </div>
         </div>
       </div>
     </div>
