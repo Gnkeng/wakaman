@@ -63,7 +63,7 @@ const GoCameCard = ({
         <div>
           <div>
             <h3>{busType}</h3>
-            <h3>{availableSeats}</h3>
+            <h3>{availableSeats} seats</h3>
             <h3>{from}</h3>
           </div>
 

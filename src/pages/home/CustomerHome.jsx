@@ -10,6 +10,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { customerInfo } from "../../store/customer/customerSlice";
+import RateAgency from "../../components/card/review-card/RateAgencyCard";
 
 const CustomerHome = () => {
   const customerSlice = useSelector((state) => state.customer);
@@ -21,6 +22,7 @@ const CustomerHome = () => {
   const [userEmail, setUserEmail] = useState("");
   const [allCustomers, setAllCustomers] = useState([]);
   const [singleCustomer, setSingleCustomer] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
   const customerCollectionRef = collection(db, "customers");
@@ -119,6 +121,21 @@ const CustomerHome = () => {
         ) : (
           <p>hi</p>
         )}
+      </ModalContainer>
+
+      <ModalContainer
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        width={"700px"}
+        show={isOpen}
+      >
+        <div className="w-full flex flex-col justify-center items-center gap-4">
+          <h1 className="text">View all the Ratings of Bus Agencies</h1>
+          <div className="w-full flex justify-center items-center">
+            <Button text={"View Ratings"} buttonType={"PRIMARY"} />
+          </div>
+        </div>
       </ModalContainer>
     </div>
   );
