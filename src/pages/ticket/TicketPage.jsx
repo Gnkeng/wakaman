@@ -59,6 +59,7 @@ const TicketPage = () => {
               agencyName={ticket.agencyName}
               customerFirstName={ticket.customerFirstName}
               customerLastName={ticket.customerLastName}
+              key={index}
             />
           );
         })}
