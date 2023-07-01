@@ -18,8 +18,6 @@ import {
 import { auth, db } from "../../firebase-config";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import OneWayTicket from '../../components/common/tickets/OneWayTicket';
-// import GoCameTicket from '../../components/common/tickets/GoCameTicket';
 
 const OneWay = () => {
   const customerSlice = useSelector((state) => state.customer);
@@ -42,7 +40,6 @@ const OneWay = () => {
   const PurchaseOneWayTicket = async (ticket) => {
     const purchasedTicketRef = collection(db, "purchasedTickets");
     try {
-      const today = new Date();
       const date = new Date();
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
