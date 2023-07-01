@@ -21,6 +21,7 @@ const AddGoCameModal = ({ setShow, trigger, setTrigger }) => {
     arrivalTime: "",
     departureDate: "",
     arrivalDate: "",
+    price: "",
   });
 
   const handleSubmit = async (event) => {
@@ -37,7 +38,9 @@ const AddGoCameModal = ({ setShow, trigger, setTrigger }) => {
         arrivalDate: form.arrivalDate,
         departureTime: form.departureTime,
         arrivalTime: form.arrivalTime,
+        price: form.price,
         agencyEmail: agencySlice?.agency?.email,
+        agencyName: agencySlice?.agency?.agencyname,
         // user: { email: currentAgency?.email },
       });
       setTrigger(!trigger);
@@ -75,18 +78,33 @@ const AddGoCameModal = ({ setShow, trigger, setTrigger }) => {
           />
         </div>
 
-        <div className="">
-          <TextInput
-            label={"Bus Type"}
-            type={"text"}
-            onChange={(e) => {
-              setForm({ ...form, busType: e.target.value });
-            }}
-            name={"busType"}
-            id={"busType"}
-            value={form.busType}
-            required={true}
-          />
+        <div className="w-full flex justify-between gap-5">
+          <div className="w-full">
+            <TextInput
+              label={"Bus Type"}
+              type={"text"}
+              onChange={(e) => {
+                setForm({ ...form, busType: e.target.value });
+              }}
+              name={"busType"}
+              id={"busType"}
+              value={form.busType}
+              required={true}
+            />
+          </div>
+          <div className="w-full">
+            <TextInput
+              label={"Price"}
+              type={"number"}
+              onChange={(e) => {
+                setForm({ ...form, price: e.target.value });
+              }}
+              name={"price"}
+              id={"price"}
+              value={form.price}
+              required={true}
+            />
+          </div>
         </div>
 
         <div>
