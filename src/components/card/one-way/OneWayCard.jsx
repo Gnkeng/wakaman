@@ -1,7 +1,7 @@
-import React from 'react';
-import Button from '../../common/button/Button';
-import ModalContainer from '../../common/modal/modal-container/ModalContainer';
-import AddOneWayModal from '../../common/modal/agency/add-one-ticket/AddOneWayModal';
+import React from "react";
+import Button from "../../common/button/Button";
+import ModalContainer from "../../common/modal/modal-container/ModalContainer";
+import AddOneWayModal from "../../common/modal/agency/add-one-ticket/AddOneWayModal";
 
 const OneWayCard = ({
   setShow,
@@ -30,7 +30,7 @@ const OneWayCard = ({
   return (
     <div
       className="px-10 w-[600px] max-h-[320px] bg-white py-4 mb-6 border rounded-lg"
-      style={{ boxShadow: '0px 20px 25px rgba(76, 103, 100, 0.1)' }}
+      style={{ boxShadow: "0px 20px 25px rgba(76, 103, 100, 0.1)" }}
     >
       {/* header */}
       <div className="flex justify-between items-center border-b border-slate-300 pb-7">
@@ -83,13 +83,13 @@ const OneWayCard = ({
           <div className="w-full mt-5 flex gap-5 ">
             <Button
               // onClick={() => setShow(true)}
-              text={'Edit'}
-              buttonType={'PRIMARY'}
+              text={"Edit"}
+              buttonType={"PRIMARY"}
               fullWidth={true}
               onClick={handleEditTicket}
             />
 
-            <ModalContainer onClose={closeModal} width={'700px'} show={show}>
+            <ModalContainer onClose={closeModal} width={"700px"} show={show}>
               <AddOneWayModal
                 setShow={setShow}
                 trigger={trigger}
@@ -99,8 +99,8 @@ const OneWayCard = ({
 
             <Button
               // onClick={() => setShow(true)}
-              text={'Delete'}
-              buttonType={'OUTLINE'}
+              text={"Delete"}
+              buttonType={"OUTLINE"}
               fullWidth={true}
               onClick={deleteTicket}
             />
@@ -108,9 +108,9 @@ const OneWayCard = ({
         ) : (
           <div className="mt-5">
             <Button
-              onClick={() => setShow(true)}
-              text={'Book One Way Ticket'}
-              buttonType={'PRIMARY'}
+              onClick={setShow}
+              text={"Book One Way Ticket"}
+              buttonType={"PRIMARY"}
               fullWidth={true}
             />
           </div>
