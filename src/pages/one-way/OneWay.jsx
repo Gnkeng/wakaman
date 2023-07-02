@@ -35,6 +35,7 @@ const OneWay = () => {
     setShow(true);
     setTicketPrice(price);
     setCurrentTicket(ticket);
+    console.log("ji");
   };
 
   const PurchaseOneWayTicket = async (ticket) => {
