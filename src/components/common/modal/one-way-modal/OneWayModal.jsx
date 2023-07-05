@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SelectInput from "../../input/SelectInput";
 import { LOCATIONS, TRAVEL_TIME } from "../../../../constants/constant";
+
 import DateInput from "../../input/DateInput";
 import Button from "../../button/Button";
 import { useNavigate } from "react-router-dom";
