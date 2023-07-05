@@ -49,6 +49,10 @@ const CustomerHome = () => {
     getCustomers();
   }, [userEmail]);
 
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -113,14 +117,7 @@ const CustomerHome = () => {
         width={"700px"}
         show={show}
       >
-        {/* <OneWayModal/> */}
-        {active === 1 ? (
-          <OneWayModal />
-        ) : active === 2 ? (
-          <GoCameModal />
-        ) : (
-          <p>hi</p>
-        )}
+        {active === 1 ? <OneWayModal /> : active === 2 ? <GoCameModal /> : ""}
       </ModalContainer>
 
       <ModalContainer
@@ -133,7 +130,14 @@ const CustomerHome = () => {
         <div className="w-full flex flex-col justify-center items-center gap-4">
           <h1 className="text">View all the Ratings of Bus Agencies</h1>
           <div className="w-full flex justify-center items-center">
-            <Button text={"View Ratings"} buttonType={"PRIMARY"} />
+            <Button
+              text={"View Ratings"}
+              buttonType={"PRIMARY"}
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/reviews");
+              }}
+            />
           </div>
         </div>
       </ModalContainer>

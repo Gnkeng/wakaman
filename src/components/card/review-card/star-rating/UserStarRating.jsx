@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-
 export default function useStarRating(totalStar) {
   const [stars, setStars] = useState(totalStar);
-  const [hoverd, setHovered] = useState(); 
-  const [rated, setRated] = useState(); 
-  console.log(setStars)
+  const [hoverd, setHovered] = useState();
+  const [rated, setRated] = useState();
+  // console.log(setStars)
 
   // handler for rating
   const handleSetRated = (value) => {
@@ -15,13 +14,12 @@ export default function useStarRating(totalStar) {
   const handleSetHovered = (value) => {
     setHovered(value);
   };
-  
+
   // reset handler
   const handleReset = () => {
     setRated(-1);
     setHovered(-1);
   };
-
 
   return {
     stars,
@@ -29,6 +27,6 @@ export default function useStarRating(totalStar) {
     rated,
     handleSetRated,
     handleSetHovered,
-    handleReset
+    handleReset,
   };
 }
