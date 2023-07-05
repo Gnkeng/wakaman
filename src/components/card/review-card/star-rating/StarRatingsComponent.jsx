@@ -1,7 +1,7 @@
 import useStarRating from "./UserStarRating";
 import styles from "./starRatings.module.css";
 
-export default function StarRating({ totalStar }) {
+export default function StarRating({ totalStar, setAgencyRating }) {
   const {
     stars,
     hoverd,
@@ -10,6 +10,8 @@ export default function StarRating({ totalStar }) {
     handleSetRated,
     // handleReset
   } = useStarRating(totalStar);
+
+  console.log(stars, hoverd, rated);
 
   return (
     <div className={styles.star_container}>
@@ -21,11 +23,12 @@ export default function StarRating({ totalStar }) {
               handleSetHovered(i);
             }}
             onMouseOut={() => {
-              // if user already rated then set rating after hover 
+              // if user already rated then set rating after hover
               handleSetHovered(rated);
             }}
             onClick={() => {
               handleSetRated(i);
+              setAgencyRating(i + 1);
             }}
             className={i <= hoverd ? styles.hovered : ""}
           >

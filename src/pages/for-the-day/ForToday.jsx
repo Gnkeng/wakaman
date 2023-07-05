@@ -18,22 +18,109 @@ import {
 import { auth, db } from "../../firebase-config";
 import { useSelector, useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 const ForToday = () => {
+  const customerSlice = useSelector((state) => state.customer);
+  const navigate = useNavigate();
+
   const [oneWayTicketsList, setOneWayTicketsList] = useState([]);
   const [goCameTicketsList, setGoCameTicketsList] = useState([]);
   const [currentEmail, setCurrentEmail] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [show, setShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedOperator, setSelectedOperator] = useState("");
+  const [ticketPrice, setTicketPrice] = useState(0);
+  const [currentTicket, setCurrentTicket] = useState({});
+
+  const getTicketPrice = (price, ticket) => {
+    setShow(true);
+    setTicketPrice(price);
+    setCurrentTicket(ticket);
+    console.log("ji");
+  };
+
+  const getGoCameTicketPrice = (price, ticket) => {
+    setIsOpen(true);
+    setTicketPrice(price);
+    setCurrentTicket(ticket);
+  };
+
+  const PurchaseGoCameTicket = async (ticket) => {
+    const purchasedTicketRef = collection(db, "purchasedTickets");
+    try {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      await addDoc(purchasedTicketRef, {
+        to: ticket.to,
+        from: ticket.from,
+        departureDate: ticket.departureDate,
+        arrivalDate: ticket.arrivalDate,
+        departureTime: ticket.departureTime,
+        arrivalTime: ticket.arrivalTime,
+        price: ticket.price,
+        agencyName: ticket.agencyName,
+        agencyEmail: ticket.agencyEmail,
+        customerFirstName: customerSlice.customer.firstname,
+        customerLastName: customerSlice.customer.lastname,
+        customerEmail: customerSlice.customer.email,
+        purchasedDate: formattedDate,
+      });
+
+      navigate("/customer-ticket", {
+        state: {
+          ticket: ticket,
+        },
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const PurchaseOneWayTicket = async (ticket) => {
+    const purchasedTicketRef = collection(db, "purchasedTickets");
+    try {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      await addDoc(purchasedTicketRef, {
+        to: ticket.to,
+        from: ticket.from,
+        departureDate: ticket.departureDate,
+        departureTime: ticket.departureTime,
+        price: ticket.price,
+        agencyName: ticket.agencyName,
+        agencyEmail: ticket.agencyEmail,
+        customerFirstName: customerSlice.customer.firstname,
+        customerLastName: customerSlice.customer.lastname,
+        customerEmail: customerSlice.customer.email,
+        purchasedDate: formattedDate,
+      });
+
+      navigate("/customer-ticket", {
+        state: {
+          ticket: ticket,
+        },
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setCurrentEmail(currentUser.email);
     });
 
-    const getGoCameTickets = async () => {
+    const getOneWayTickets = async () => {
       const oneWayTicketsRef = collection(db, "oneWayTickets");
-      const today = new Date();
+      // const today = new Date();
       const date = new Date();
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -59,9 +146,9 @@ const ForToday = () => {
         console.log(err.message);
       }
     };
-    const getOneWayTickets = async () => {
+    const getGoCameTickets = async () => {
       const oneWayTicketsRef = collection(db, "goCameTickets");
-      const today = new Date();
+      // const today = new Date();
       const date = new Date();
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -115,6 +202,7 @@ const ForToday = () => {
               departureDate={ticket.departureDate}
               departureTime={ticket.departureTime}
               availableSeats={ticket.availableSeats}
+              setShow={() => getTicketPrice(ticket.price, ticket)}
               // deleteTicket={() => deleteTicket(ticket.id)}
             />
           );
@@ -135,6 +223,7 @@ const ForToday = () => {
               arrivalTime={ticket.arrivalTime}
               departureTime={ticket.departureTime}
               availableSeats={ticket.availableSeats}
+              setShow={() => getGoCameTicketPrice(ticket.price, ticket)}
               // deleteTicket={() => deleteTicket(ticket.id)}
             />
           );
@@ -163,6 +252,33 @@ const ForToday = () => {
           <EnterDetailsCard
             setCurrentStep={setCurrentStep}
             selectedOperator={selectedOperator}
+            ticketPrice={ticketPrice}
+            purchaseTicket={() => PurchaseOneWayTicket(currentTicket)}
+          />
+        ) : (
+          ""
+        )}
+      </ModalContainer>
+      <ModalContainer
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        width={"700px"}
+        show={isOpen}
+      >
+        {currentStep === 0 ? (
+          <OneWayPaymentCard
+            setCurrentStep={setCurrentStep}
+            setSelectedOperator={setSelectedOperator}
+          />
+        ) : (
+          ""
+        )}
+        {currentStep === 1 ? (
+          <EnterDetailsCard
+            setCurrentStep={setCurrentStep}
+            selectedOperator={selectedOperator}
+            purchaseTicket={() => PurchaseGoCameTicket(currentTicket)}
           />
         ) : (
           ""
