@@ -60,7 +60,11 @@ const OneWay = () => {
         purchasedDate: formattedDate,
       });
 
-      navigate("/customer-ticket");
+      navigate("/customer-ticket", {
+        state: {
+          ticket: ticket,
+        },
+      });
     } catch (err) {
       console.log(err.message);
     }

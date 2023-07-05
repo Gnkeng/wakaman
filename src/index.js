@@ -1,23 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from './pages/login/Login';
-import Signup from './pages/signup/Signup';
+import Login from "./pages/login/Login";
+import Signup from "./pages/signup/Signup";
 import { Provider } from "react-redux";
-import {store} from './store'
-import CustomerHome from './pages/home/CustomerHome';
-import AgencyHome from './pages/home/AgencyHome';
-import AgencySignup from './pages/agency-signup/AgencySignup';
-import OneWay from './pages/one-way/OneWay';
-import GoCame from './pages/go-came/GoCame';
-import ForToday from './pages/for-the-day/ForToday'
-import TicketPage from './pages/ticket/TicketPage';
-import AgencyFastPage from './pages/agency-pages/AgencyFastPage';
-import AgencyGoCamePage from './pages/agency-pages/AgencyGoCamePage';
-import AgencyOneWayPage from './pages/agency-pages/AgencyOneWayPage';
+import { store } from "./store";
+import CustomerHome from "./pages/home/CustomerHome";
+import AgencyHome from "./pages/home/AgencyHome";
+import AgencySignup from "./pages/agency-signup/AgencySignup";
+import OneWay from "./pages/one-way/OneWay";
+import GoCame from "./pages/go-came/GoCame";
+import ForToday from "./pages/for-the-day/ForToday";
+import TicketPage from "./pages/ticket/TicketPage";
+import AgencyFastPage from "./pages/agency-pages/AgencyFastPage";
+import AgencyGoCamePage from "./pages/agency-pages/AgencyGoCamePage";
+import AgencyOneWayPage from "./pages/agency-pages/AgencyOneWayPage";
+import ReviewsPage from "./pages/reviews/Reviews";
 
 const router = createBrowserRouter([
   {
@@ -72,9 +73,13 @@ const router = createBrowserRouter([
     path: "/add-one-way",
     element: <AgencyOneWayPage />,
   },
+  {
+    path: "/reviews",
+    element: <ReviewsPage />,
+  },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
