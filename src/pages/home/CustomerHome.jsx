@@ -102,6 +102,13 @@ const CustomerHome = () => {
             icon={active === 2 ? true : false}
             onClick={handleGoClick}
           />
+          <Button
+            text={"Purchased Tickets"}
+            buttonType={"PRIMARY"}
+            onClick={() => {
+              navigate("/customer-ticket");
+            }}
+          />
         </div>
       </div>
 

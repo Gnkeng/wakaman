@@ -31,32 +31,34 @@ const TicketPage = () => {
 
   console.log("asdsadsa", agencyRating);
 
-  // console.log(location.state.ticket);
+  console.log(location.state);
 
   useEffect(() => {
     const agencyRef = collection(db, "agency");
     const getAgency = async () => {
-      try {
-        const q = query(
-          agencyRef,
-          where("email", "==", location.state.ticket.agencyEmail)
-        );
+      if (location.state) {
+        try {
+          const q = query(
+            agencyRef,
+            where("email", "==", location.state.ticket.agencyEmail)
+          );
 
-        const querySnapshot = await getDocs(q);
-        setSpecificAgency(
-          querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        );
-        console.log("sadasd", specificAgency);
-      } catch (err) {
-        console.log(err.message);
+          const querySnapshot = await getDocs(q);
+          setSpecificAgency(
+            querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          );
+          console.log("sadasd", specificAgency);
+        } catch (err) {
+          console.log(err.message);
+        }
       }
     };
 
     getAgency();
-  }, [location.state.ticket]);
+  }, [specificAgency]);
 
   const makeRating = (rating) => {
-    if (location.state.ticket.id) {
+    if (location.state) {
       setAgencyID(location.state.ticket.id);
     }
     const docRef = doc(db, "agency", specificAgency[0].id);
@@ -79,7 +81,9 @@ const TicketPage = () => {
 
   // console.log(customerSlice);
   useEffect(() => {
-    setShow(true);
+    if (location.state) {
+      setShow(true);
+    }
   }, []);
 
   const closeModal = () => {
@@ -115,16 +119,20 @@ const TicketPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-10 mt-6">
-        <ModalContainer onClose={closeModal} width={"700px"} show={show}>
-          <RateAgency
-            setShow={setShow}
-            setAgencyRating={setAgencyRating}
-            agencyName={location.state.ticket.agencyName}
-            onClick={() => makeRating(agencyRating)}
-          />
-        </ModalContainer>
+        {location.state ? (
+          <ModalContainer onClose={closeModal} width={"700px"} show={show}>
+            <RateAgency
+              setShow={setShow}
+              setAgencyRating={setAgencyRating}
+              agencyName={location.state.ticket.agencyName}
+              onClick={() => makeRating(agencyRating)}
+            />
+          </ModalContainer>
+        ) : (
+          ""
+        )}
 
-        {purchasedTicketsList.map((ticket, index) => {
+        {purchasedTicketsList?.map((ticket, index) => {
           return (
             <OneWayTicket
               id={ticket.id}
