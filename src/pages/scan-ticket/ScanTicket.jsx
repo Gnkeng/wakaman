@@ -74,14 +74,20 @@ const ScanTicket = () => {
             where("agencyEmail", "==", currentAgency),
             where("customerEmail", "==", result)
           );
-          console.log(q);
+          console.log("asdasda", q);
           const data = await getDocs(q);
           setSpecificTicket(
             data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
           );
 
-          console.log(specificTicket);
-          await addDoc(validateRef, specificTicket[0]);
+          console.log("fghfhg", specificTicket);
+          await addDoc(validateRef, {
+            customerFirstName: specificTicket[0].customerFirstName,
+            customerLastName: specificTicket[0].customerLastName,
+            from: specificTicket[0].from,
+            to: specificTicket[0].to,
+            departureTime: specificTicket[0].departureTime,
+          });
         } catch (err) {
           console.log(err.message);
         }
