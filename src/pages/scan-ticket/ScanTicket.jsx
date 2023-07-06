@@ -52,14 +52,13 @@ const ScanTicket = () => {
   return (
     <>
       <h1>QR Scanning Code</h1>
-      {
-        <div id="reader">
-          <p>
-            Success: <a href={scanResult}>{scanResult}</a>
-          </p>
-          <p>Serial Number: </p>
-        </div>
-      }
+
+      <div id="reader">
+        <p>Success: {scanResult}</p>
+      </div>
+
+      <div>{scanResult}</div>
+
       {/* <QrReader
         onResult={(result, error) => {
           if (!!result) {
