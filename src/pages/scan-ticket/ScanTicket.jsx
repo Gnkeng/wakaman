@@ -15,8 +15,10 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
 
 const ScanTicket = () => {
+  const agencySlice = useSelector((state) => state.agency);
   const [scanResult, setScanResult] = useState(null);
   const [purchasedTickets, setPurchasedTickets] = useState([]);
   const [currentAgency, setCurrentAgency] = useState("");
@@ -29,25 +31,25 @@ const ScanTicket = () => {
   }, []);
 
   useEffect(() => {
-    const handleValidation = async (qr) => {
-      const oneWayTicketsRef = collection(db, "purchasedTickets");
-      const validateRef = collection(db, "validatedTickets");
-      try {
-        const q = query(
-          oneWayTicketsRef,
-          where("agencyEmail", "==", currentAgency),
-          where("customerEmail", "==", qr)
-        );
+    // const handleValidation = async (qr) => {
+    //   const oneWayTicketsRef = collection(db, "purchasedTickets");
+    //   const validateRef = collection(db, "validatedTickets");
+    //   try {
+    //     const q = query(
+    //       oneWayTicketsRef,
+    //       where("agencyEmail", "==", currentAgency),
+    //       where("customerEmail", "==", qr)
+    //     );
 
-        const data = await getDocs(q);
-        setSpecificTicket(
-          data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        );
-        await addDoc(validateRef, specificTicket[0]);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
+    //     const data = await getDocs(q);
+    //     setSpecificTicket(
+    //       data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //     );
+    //     await addDoc(validateRef, specificTicket[0]);
+    //   } catch (err) {
+    //     console.log(err.message);
+    //   }
+    // };
 
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
@@ -71,7 +73,7 @@ const ScanTicket = () => {
         try {
           const q = query(
             oneWayTicketsRef,
-            where("agencyEmail", "==", currentAgency),
+            // where("agencyEmail", "==", agencySlice.agency.email),
             where("customerEmail", "==", result)
           );
           console.log("asdasda", q);
