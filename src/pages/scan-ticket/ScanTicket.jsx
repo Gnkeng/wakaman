@@ -61,12 +61,30 @@ const ScanTicket = () => {
 
     scanner.render(success, error);
 
-    function success(result) {
+    async function success(result) {
       if (isScanning) {
         scanner.clear();
         setScanResult(result);
         isScanning = false; // Set isScanning to false to stop further scanning
-        handleValidation(scanResult);
+        const oneWayTicketsRef = collection(db, "purchasedTickets");
+        const validateRef = collection(db, "validatedTickets");
+        try {
+          const q = query(
+            oneWayTicketsRef,
+            where("agencyEmail", "==", currentAgency),
+            where("customerEmail", "==", result)
+          );
+          console.log(q);
+          const data = await getDocs(q);
+          setSpecificTicket(
+            data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          );
+
+          console.log(specificTicket);
+          await addDoc(validateRef, specificTicket[0]);
+        } catch (err) {
+          console.log(err.message);
+        }
       }
     }
 
