@@ -19,6 +19,7 @@ import AgencyFastPage from "./pages/agency-pages/AgencyFastPage";
 import AgencyGoCamePage from "./pages/agency-pages/AgencyGoCamePage";
 import AgencyOneWayPage from "./pages/agency-pages/AgencyOneWayPage";
 import ReviewsPage from "./pages/reviews/Reviews";
+import ScanTicket from "./pages/scan-ticket/ScanTicket";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
   {
     path: "/reviews",
     element: <ReviewsPage />,
+  },
+  {
+    path: "/scan",
+    element: <ScanTicket />,
   },
 ]);
 
