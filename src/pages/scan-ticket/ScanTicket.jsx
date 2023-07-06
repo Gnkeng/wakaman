@@ -48,6 +48,7 @@ const ScanTicket = () => {
   //   const handleError = (err) => {
   //     console.error(err);
   //   };
+
   return (
     <>
       <h1>QR Scanning Code</h1>
