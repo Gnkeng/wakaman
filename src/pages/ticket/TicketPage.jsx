@@ -18,6 +18,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { db } from "../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import QRCode from "react-qr-code";
 
 const TicketPage = () => {
   const location = useLocation();
@@ -126,6 +127,7 @@ const TicketPage = () => {
         {purchasedTicketsList.map((ticket, index) => {
           return (
             <OneWayTicket
+              id={ticket.id}
               to={ticket.to}
               from={ticket.from}
               departureDate={ticket.departureDate}
@@ -134,6 +136,7 @@ const TicketPage = () => {
               agencyName={ticket.agencyName}
               customerFirstName={ticket.customerFirstName}
               customerLastName={ticket.customerLastName}
+              customerEmail={ticket.customerEmail}
               key={index}
             />
           );

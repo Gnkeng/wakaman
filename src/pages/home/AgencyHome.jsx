@@ -51,6 +51,9 @@ const AgencyHome = () => {
   const goToGoCamePage = () => {
     navigate("/add-go-came");
   };
+  const goToValidatePage = () => {
+    navigate("/validate");
+  };
 
   return (
     <div>
@@ -81,6 +84,11 @@ const AgencyHome = () => {
             text={"Scan Ticket"}
             buttonType={"SECONDARY"}
             onClick={ScanTicketPage}
+          />
+          <Button
+            text={"Validated Customers"}
+            buttonType={"SECONDARY"}
+            onClick={goToValidatePage}
           />
 
           {/* <GoCameCard /> */}

@@ -20,6 +20,7 @@ import AgencyGoCamePage from "./pages/agency-pages/AgencyGoCamePage";
 import AgencyOneWayPage from "./pages/agency-pages/AgencyOneWayPage";
 import ReviewsPage from "./pages/reviews/Reviews";
 import ScanTicket from "./pages/scan-ticket/ScanTicket";
+import ValidatePage from "./pages/validate/ValidatePage";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "/scan",
     element: <ScanTicket />,
+  },
+  {
+    path: "/validate",
+    element: <ValidatePage />,
   },
 ]);
 

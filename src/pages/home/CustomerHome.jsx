@@ -85,9 +85,9 @@ const CustomerHome = () => {
             {singleCustomer[0]?.firstname}, What Type of Trip do you want ?
           </h1>
         </div>
-        <div>
+        {/* <div>
           <QRCode value="Joseph" />
-        </div>
+        </div> */}
 
         <div className="flex justify-center gap-10">
           <SelectButton

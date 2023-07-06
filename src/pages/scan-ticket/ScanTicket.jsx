@@ -2,11 +2,53 @@
 // import { QrReader } from "react-qr-reader";
 import React, { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  addDoc,
+  where,
+  updateDoc,
+  query,
+  increment,
+  doc,
+} from "firebase/firestore";
+import { db, auth } from "../../firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
+
 const ScanTicket = () => {
   const [scanResult, setScanResult] = useState(null);
-  //   const [manualSerialNumber, setManualSerialNumber] = useState("");
+  const [purchasedTickets, setPurchasedTickets] = useState([]);
+  const [currentAgency, setCurrentAgency] = useState("");
+  const [specificTicket, setSpecificTicket] = useState([]);
 
   useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setCurrentAgency(currentUser.email);
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleValidation = async (qr) => {
+      const oneWayTicketsRef = collection(db, "purchasedTickets");
+      const validateRef = collection(db, "validatedTickets");
+      try {
+        const q = query(
+          oneWayTicketsRef,
+          where("agencyEmail", "==", currentAgency),
+          where("customerEmail", "==", qr)
+        );
+
+        const data = await getDocs(q);
+        setSpecificTicket(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+        await addDoc(validateRef, specificTicket[0]);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
         width: 250,
@@ -24,6 +66,7 @@ const ScanTicket = () => {
         scanner.clear();
         setScanResult(result);
         isScanning = false; // Set isScanning to false to stop further scanning
+        handleValidation(scanResult);
       }
     }
 
@@ -31,23 +74,6 @@ const ScanTicket = () => {
       console.warn(err);
     }
   }, []);
-
-  //   function handleManualSerialNumberChange(event) {
-  //     setManualSerialNumber(event.target.value);
-  //   }
-  //   const [qrData, setQrData] = useState(null);
-  //   const [data, setData] = useState("No result");
-  //   const handleScan = (data) => {
-  //     if (data) {
-  //       setQrData(data);
-  //       //  const db = firebase.firestore();
-  //       //  db.collection("qrCodes").add({ data });
-  //     }
-  //   };
-
-  //   const handleError = (err) => {
-  //     console.error(err);
-  //   };
 
   return (
     <>
@@ -58,22 +84,6 @@ const ScanTicket = () => {
       </div>
 
       <div>{scanResult}</div>
-
-      {/* <QrReader
-        onResult={(result, error) => {
-          if (!!result) {
-            setData(result?.text);
-          }
-
-          if (!!error) {
-            console.info(error);
-          }
-        }}
-        style={{ width: "100%" }}
-      />
-      <p>{data}</p> */}
-      {/* <QrReader delay={300} onError={handleError} onScan={handleScan} /> */}
-      {/* {qrData && <p>{qrData}</p>} */}
     </>
   );
 };
