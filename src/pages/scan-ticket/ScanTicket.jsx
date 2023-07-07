@@ -64,7 +64,7 @@ const ScanTicket = () => {
     };
 
     getData();
-  }, []);
+  }, [scanResult]);
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
