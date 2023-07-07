@@ -24,6 +24,10 @@ const ScanTicket = () => {
   const [currentAgency, setCurrentAgency] = useState("");
   const [specificTicket, setSpecificTicket] = useState([]);
 
+  console.log(scanResult);
+  console.log(currentAgency);
+  console.log(specificTicket);
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setCurrentAgency(currentUser.email);
@@ -31,26 +35,37 @@ const ScanTicket = () => {
   }, []);
 
   useEffect(() => {
-    // const handleValidation = async (qr) => {
-    //   const oneWayTicketsRef = collection(db, "purchasedTickets");
-    //   const validateRef = collection(db, "validatedTickets");
-    //   try {
-    //     const q = query(
-    //       oneWayTicketsRef,
-    //       where("agencyEmail", "==", currentAgency),
-    //       where("customerEmail", "==", qr)
-    //     );
+    const oneWayTicketsRef = collection(db, "purchasedTickets");
+    const validateRef = collection(db, "validatedTickets");
+    const getData = async () => {
+      try {
+        const q = query(
+          oneWayTicketsRef,
+          // where("agencyEmail", "==", agencySlice.agency.email),
+          where("customerEmail", "==", scanResult)
+        );
+        console.log("asdasda", q);
+        const data = await getDocs(q);
+        setSpecificTicket(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
 
-    //     const data = await getDocs(q);
-    //     setSpecificTicket(
-    //       data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    //     );
-    //     await addDoc(validateRef, specificTicket[0]);
-    //   } catch (err) {
-    //     console.log(err.message);
-    //   }
-    // };
+        console.log("fghfhg", specificTicket);
+        await addDoc(validateRef, {
+          customerFirstName: specificTicket[0].customerFirstName,
+          customerLastName: specificTicket[0].customerLastName,
+          from: specificTicket[0].from,
+          to: specificTicket[0].to,
+          departureTime: specificTicket[0].departureTime,
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
 
+    getData();
+  }, [scanResult, specificTicket]);
+  useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
         width: 250,
@@ -73,7 +88,6 @@ const ScanTicket = () => {
         try {
           const q = query(
             oneWayTicketsRef,
-            // where("agencyEmail", "==", agencySlice.agency.email),
             where("customerEmail", "==", result)
           );
           console.log("asdasda", q);
