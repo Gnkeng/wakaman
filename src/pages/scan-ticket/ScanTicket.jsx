@@ -23,6 +23,7 @@ const ScanTicket = () => {
   const [purchasedTickets, setPurchasedTickets] = useState([]);
   const [currentAgency, setCurrentAgency] = useState("");
   const [specificTicket, setSpecificTicket] = useState([]);
+  const [active, setActive] = useState(false);
 
   console.log(scanResult);
   console.log(currentAgency);
@@ -41,7 +42,7 @@ const ScanTicket = () => {
       try {
         const q = query(
           oneWayTicketsRef,
-          // where("agencyEmail", "==", agencySlice.agency.email),
+          where("agencyEmail", "==", currentAgency),
           where("customerEmail", "==", scanResult)
         );
         console.log("asdasda", q);
@@ -49,6 +50,9 @@ const ScanTicket = () => {
         setSpecificTicket(
           data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
         );
+        if (specificTicket.length > 0) {
+          setActive(true);
+        }
 
         console.log("fghfhg", specificTicket);
         await addDoc(validateRef, {
@@ -57,6 +61,8 @@ const ScanTicket = () => {
           from: specificTicket[0].from,
           to: specificTicket[0].to,
           departureTime: specificTicket[0].departureTime,
+          agencyEmail: specificTicket[0].agencyEmail,
+          customerEmail: specificTicket[0].customerEmail,
         });
       } catch (err) {
         console.log(err.message);
@@ -64,7 +70,7 @@ const ScanTicket = () => {
     };
 
     getData();
-  }, [scanResult]);
+  }, [active]);
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
@@ -82,7 +88,38 @@ const ScanTicket = () => {
       if (isScanning) {
         scanner.clear();
         setScanResult(result);
-        isScanning = false; // Set isScanning to false to stop further scanning
+
+        setActive(!active);
+
+        isScanning = false;
+
+        // try {
+        //   const oneWayTicketsRef = collection(db, "purchasedTickets");
+        //   const validateRef = collection(db, "validatedTickets");
+        //   const q = query(
+        //     oneWayTicketsRef,
+        //     // where("agencyEmail", "==", currentAgency),
+        //     where("customerEmail", "==", scanResult)
+        //   );
+        //   console.log("asdasda", q);
+        //   const data = await getDocs(q);
+        //   setSpecificTicket(
+        //     data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        //   );
+
+        //   console.log("fghfhg", specificTicket);
+        //   await addDoc(validateRef, {
+        //     customerFirstName: specificTicket[0].customerFirstName,
+        //     customerLastName: specificTicket[0].customerLastName,
+        //     from: specificTicket[0].from,
+        //     to: specificTicket[0].to,
+        //     departureTime: specificTicket[0].departureTime,
+        //   });
+        // } catch (err) {
+        //   console.log(err.message);
+        // }
+
+        // Set isScanning to false to stop further scanning
         // const oneWayTicketsRef = collection(db, "purchasedTickets");
         // const validateRef = collection(db, "validatedTickets");
         // try {
