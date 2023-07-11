@@ -20,6 +20,7 @@ import { auth, db } from "../../firebase-config";
 import { useSelector, useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import EditOneWayModal from "../../components/common/modal/agency/add-one-ticket/EditOneWayModal";
+import { agencyInfo } from "../../store/agency/agencySlice";
 // import { oneWayTicketsInfo } from "../../store/oneWayTickets/oneWayTicketsSlice";
 const AgencyOneWayPage = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,12 @@ const AgencyOneWayPage = () => {
   const [editTicketsList, setEditTicketsList] = useState({});
   const [currentEmail, setCurrentEmail] = useState("");
   const [trigger, setTrigger] = useState(false);
+  const [presentUser, setPresentUser] = useState({});
+
   const agencySlice = useSelector((state) => state.agency);
   const ticketsSlice = useSelector((state) => state.oneWayTickets);
+
+  const agencyRef = collection(db, "agency");
 
   const handleEditTicket = (ticket) => {
     setEditTicketsList(ticket);
@@ -43,9 +48,25 @@ const AgencyOneWayPage = () => {
 
   // // console.log(ticketsList);
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setCurrentEmail(currentUser.email);
-    });
+    // const getAgency = async () => {
+    //   onAuthStateChanged(auth, (currentUser) => {
+    //     setCurrentEmail(currentUser.email);
+    //   });
+
+    //   const q = query(agencyRef, where("email", "==", currentEmail));
+    //   const querySnapshot = await getDocs(q);
+    //   setPresentUser(
+    //     querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //   );
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(doc.id, " => ", doc.data());
+    //     //  dispatch(customerInfo(doc.data()));
+
+    //     dispatch(agencyInfo(doc.data()));
+    //   });
+    // };
+
+    // getAgency();
 
     const getOneWayTickets = async () => {
       const oneWayTicketsRef = collection(db, "oneWayTickets");
@@ -106,7 +127,7 @@ const AgencyOneWayPage = () => {
       <div className="flex flex-wrap justify-center gap-10 mt-10">
         {ticketsList?.map((ticket, index) => {
           return (
-            <div>
+            <div key={index}>
               <OneWayCard
                 key={index}
                 forAgency={true}
