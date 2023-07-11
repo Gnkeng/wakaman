@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   getDoc,
   getDocs,
@@ -13,12 +13,22 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../firebase-config";
 import { useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import Button from "../../components/common/button/Button";
 
 const ValidatePage = () => {
+  const conponentPDF = useRef();
+
   const customerSlice = useSelector((state) => state.customer);
 
   const [allCustomers, setAllCustomers] = useState([]);
   const [currentAgency, setCurrentAgency] = useState("");
+
+  const generatePDF = useReactToPrint({
+    content: () => conponentPDF.current,
+    documentTitle: "Validated Tickets",
+    onAfterPrint: () => alert("Data saved in PDF"),
+  });
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -50,7 +60,19 @@ const ValidatePage = () => {
       <div className="text-center pt-4">
         <h1 className="text-4xl font-bold">Validated Customers</h1>
       </div>
-      <div className="flex flex-col items-center justify-center gap-7 mt-6">
+      <div className=" flex justify-center items-center mt-4">
+        <Button
+          text={"Download Validated Tickets"}
+          buttonType={"PRIMARY"}
+          onClick={generatePDF}
+          // fullWidth={true}
+          width={"500px"}
+        />
+      </div>
+      <div
+        ref={conponentPDF}
+        className="flex flex-col items-center justify-center gap-7 mt-6"
+      >
         {allCustomers?.map((customer, index) => {
           return (
             <div
