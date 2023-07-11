@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../../components/common/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { agencyInfo } from "../../store/agency/agencySlice";
@@ -15,9 +15,33 @@ const AgencyHome = () => {
 
   const [userID, setUserID] = useState();
   const [allAgencies, setAllAgencies] = useState([]);
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [presentUser, setPresentUser] = useState({});
   const dispatch = useDispatch();
 
   const agencyCollectionRef = collection(db, "agency");
+
+  useEffect(() => {
+    const getAgency = async () => {
+      onAuthStateChanged(auth, (currentUser) => {
+        setCurrentEmail(currentUser.email);
+      });
+
+      const q = query(agencyCollectionRef, where("email", "==", currentEmail));
+      const querySnapshot = await getDocs(q);
+      setPresentUser(
+        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        //  dispatch(customerInfo(doc.data()));
+
+        dispatch(agencyInfo(doc.data()));
+      });
+    };
+
+    getAgency();
+  }, []);
 
   useEffect(() => {
     const getStudents = async () => {
