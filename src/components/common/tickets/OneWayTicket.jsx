@@ -1,4 +1,6 @@
 import React from "react";
+import QRCode from "react-qr-code";
+import Button from "../button/Button";
 
 const OneWayTicket = ({
   agencyName,
@@ -9,6 +11,9 @@ const OneWayTicket = ({
   departureDate,
   departureTime,
   price,
+  customerEmail,
+  id,
+  handlePDF,
 }) => {
   return (
     <div
@@ -47,9 +52,22 @@ const OneWayTicket = ({
 
         <div>
           <div className="w-[100px] h-[100px]">
-            <img src="qrcode.png" alt="qr" className="w-full h-auto" />
+            <QRCode
+              value={customerEmail}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            />
+            {/* <img src="qrcode.png" alt="qr" className="w-full h-auto" /> */}
           </div>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <Button
+          text={"Download Ticket"}
+          buttonType={"PRIMARY"}
+          fullWidth={true}
+          onClick={handlePDF}
+        />
       </div>
     </div>
   );

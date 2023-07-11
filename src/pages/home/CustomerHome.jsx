@@ -11,6 +11,7 @@ import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { customerInfo } from "../../store/customer/customerSlice";
 import RateAgency from "../../components/card/review-card/RateAgencyCard";
+import QRCode from "react-qr-code";
 
 const CustomerHome = () => {
   const customerSlice = useSelector((state) => state.customer);
@@ -84,6 +85,9 @@ const CustomerHome = () => {
             {singleCustomer[0]?.firstname}, What Type of Trip do you want ?
           </h1>
         </div>
+        {/* <div>
+          <QRCode value="Joseph" />
+        </div> */}
 
         <div className="flex justify-center gap-10">
           <SelectButton
@@ -97,6 +101,13 @@ const CustomerHome = () => {
             buttonType={active === 2 ? "SECONDARY" : "PRIMARY"}
             icon={active === 2 ? true : false}
             onClick={handleGoClick}
+          />
+          <Button
+            text={"Purchased Tickets"}
+            buttonType={"PRIMARY"}
+            onClick={() => {
+              navigate("/customer-ticket");
+            }}
           />
         </div>
       </div>
