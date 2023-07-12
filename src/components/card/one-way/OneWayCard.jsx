@@ -19,6 +19,7 @@ const OneWayCard = ({
   agencyName,
   deleteTicket,
   handleEditTicket,
+  occupiedSeats,
 }) => {
   const closeModal = () => {
     setShow(false);
@@ -75,6 +76,11 @@ const OneWayCard = ({
       <div className="mt-7">
         <div className="flex justify-between">
           <h3>{price} FCFA</h3>
+          {forAgency && (
+            <h3>
+              occupied:{occupiedSeats}/ {availableSeats}
+            </h3>
+          )}
 
           <h3> {agencyName}</h3>
         </div>
