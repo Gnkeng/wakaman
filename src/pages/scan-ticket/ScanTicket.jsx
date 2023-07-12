@@ -16,6 +16,8 @@ import {
 import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+// import FcCheckmark from "react-icons/fc";
 
 const ScanTicket = () => {
   const agencySlice = useSelector((state) => state.agency);
@@ -157,10 +159,16 @@ const ScanTicket = () => {
       <h1>QR Scanning Code</h1>
 
       <div id="reader">
-        <p>Success: {scanResult}</p>
+        {scanResult && (
+          <div className="flex flex-col justify-center items-center">
+            <div>
+              <IoIosCheckmarkCircleOutline size={30} color={"#6EE7B7"} />
+              <div>User Email: {scanResult}</div>
+              <div>User is valid for travel</div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div>{scanResult}</div>
     </>
   );
 };
