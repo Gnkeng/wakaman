@@ -6,6 +6,7 @@ import { collection, getDocs, where, query } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { agencyInfo } from "../../store/agency/agencySlice";
+import { signOut } from "firebase/auth";
 
 const AgencyHome = () => {
   const agencySlice = useSelector((state) => state.agency);
@@ -79,6 +80,19 @@ const AgencyHome = () => {
     navigate("/validate");
   };
 
+  const logout = async () => {
+    // setLoading(!loading);
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (err) {
+      console.log(err.message);
+    }
+    // setLoading(false);
+    //  dispatch(resetStudentInfo());
+    //  navigation.navigate("Login");
+  };
+
   return (
     <div>
       <div className="bg-[#f4f4f4]  h-screen">
@@ -88,7 +102,7 @@ const AgencyHome = () => {
           </h3>
         </div>
 
-        <div className="flex flex-col justify-center items-center h-full gap-[100px] ">
+        <div className="flex flex-col justify-center items-center h-full gap-[80px] ">
           {/* <Button
             text={"Fast Book Trips"}
             buttonType={"PRIMARY"}
@@ -114,6 +128,7 @@ const AgencyHome = () => {
             buttonType={"SECONDARY"}
             onClick={goToValidatePage}
           />
+          <Button text={"Logout"} buttonType={"PRIMARY"} onClick={logout} />
 
           {/* <GoCameCard /> */}
         </div>

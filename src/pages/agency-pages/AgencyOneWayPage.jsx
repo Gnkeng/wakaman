@@ -30,6 +30,8 @@ const AgencyOneWayPage = () => {
   const [editTicketsList, setEditTicketsList] = useState({});
   const [currentEmail, setCurrentEmail] = useState("");
   const [trigger, setTrigger] = useState(false);
+  const [purchasedTicketsList, setPurchasedTicketsList] = useState([]);
+
   const [presentUser, setPresentUser] = useState({});
 
   const agencySlice = useSelector((state) => state.agency);
@@ -41,6 +43,10 @@ const AgencyOneWayPage = () => {
     setEditTicketsList(ticket);
     setShow(true);
   };
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setCurrentEmail(currentUser.email);
+  });
 
   // console.log(currentEmail);
 
@@ -86,6 +92,29 @@ const AgencyOneWayPage = () => {
     };
 
     getOneWayTickets();
+  }, [currentEmail, trigger]);
+
+  useEffect(() => {
+    const getPurchasedTickets = async () => {
+      const purchasedTicketsRef = collection(db, "oneWayTickets");
+      try {
+        const q = query(
+          purchasedTicketsRef,
+          where("agencyEmail", "==", currentEmail)
+        );
+
+        const data = await getDocs(q);
+        setPurchasedTicketsList(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+
+        // setShow(false);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    getPurchasedTickets();
   }, [currentEmail, trigger]);
 
   console.log(ticketsList);
@@ -142,6 +171,7 @@ const AgencyOneWayPage = () => {
                 deleteTicket={() => deleteTicket(ticket.id)}
                 handleEditTicket={() => handleEditTicket(ticket)}
                 setShow={setShow}
+                occupiedSeats={purchasedTicketsList.length}
               />
             </div>
           );

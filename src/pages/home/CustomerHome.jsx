@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { customerInfo } from "../../store/customer/customerSlice";
 import RateAgency from "../../components/card/review-card/RateAgencyCard";
 import QRCode from "react-qr-code";
+import { signOut } from "firebase/auth";
 
 const CustomerHome = () => {
   const customerSlice = useSelector((state) => state.customer);
@@ -70,6 +71,18 @@ const CustomerHome = () => {
     setShow(true);
   };
 
+  const logout = async () => {
+    // setLoading(!loading);
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (err) {
+      console.log(err.message);
+    }
+    // setLoading(false);
+    //  dispatch(resetStudentInfo());
+    //  navigation.navigate("Login");
+  };
   // console.log(singleCustomer);
 
   return (
@@ -77,6 +90,10 @@ const CustomerHome = () => {
       className="h-screen flex flex-col justify-around  items-center"
       style={{ background: "#f4f4f4" }}
     >
+      <div className="absolute right-10  top-10">
+        <Button text={"Logout"} type={"PRIMARY"} onClick={logout} />
+      </div>
+
       <div className="mt-20">
         <h1 className="text-6xl text-dark text-center">Let's Book</h1>
 
@@ -121,6 +138,7 @@ const CustomerHome = () => {
           onClick={handleSubmit}
         />
       </div>
+
       <ModalContainer
         onClose={() => {
           setShow(false);
